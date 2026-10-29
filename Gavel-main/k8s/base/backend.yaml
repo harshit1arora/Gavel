@@ -1,0 +1,197 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gavel-backend-config
+  namespace: default
+data:
+  NODE_ENV: "production"
+  PORT: "8080"
+  ALLOWED_ORIGINS: "https://trygavel.com,https://www.trygavel.com"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: gavel-backend-secrets
+  namespace: default
+type: Opaque
+stringData:
+  FIREBASE_SERVICE_ACCOUNT: "${FIREBASE_SERVICE_ACCOUNT}"
+  GEMINI_API_KEY: "${GEMINI_API_KEY}"
+  NVIDIA_API_KEY: "${NVIDIA_API_KEY}"
+  TWILIO_ACCOUNT_SID: "${TWILIO_ACCOUNT_SID}"
+  TWILIO_AUTH_TOKEN: "${TWILIO_AUTH_TOKEN}"
+  SENDGRID_API_KEY: "${SENDGRID_API_KEY}"
+  RAZORPAY_KEY_ID: "${RAZORPAY_KEY_ID}"
+  RAZORPAY_KEY_SECRET: "${RAZORPAY_KEY_SECRET}"
+  RAZORPAY_WEBHOOK_SECRET: "${RAZORPAY_WEBHOOK_SECRET}"
+  JWT_SECRET: "${JWT_SECRET}"
+  WEBHOOK_SIGNING_SECRET: "${WEBHOOK_SIGNING_SECRET}"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gavel-backend
+  namespace: default
+  labels:
+    app: gavel-backend
+    tier: api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: gavel-backend
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: gavel-backend
+        tier: api
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"
+    spec:
+      serviceAccountName: gavel-sa
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1001
+        fsGroup: 1001
+      containers:
+        - name: backend
+          image: gavel-backend:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+              name: http
+          envFrom:
+            - configMapRef:
+                name: gavel-backend-config
+            - secretRef:
+                name: gavel-backend-secrets
+          resources:
+            requests:
+              cpu: 250m
+              memory: 512Mi
+            limits:
+              cpu: 1000m
+              memory: 1Gi
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 30
+            timeoutSeconds: 5
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 3
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+      volumes:
+        - name: tmp
+          emptyDir: {}
+      terminationGracePeriodSeconds: 30
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gavel-backend-svc
+  namespace: default
+  labels:
+    app: gavel-backend
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080
+      targetPort: 8080
+      name: http
+  selector:
+    app: gavel-backend
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: gavel-backend-ingress
+  namespace: default
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-body-size: "10m"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "60"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - api.trygavel.com
+        - "*.trygavel.com"
+      secretName: gavel-tls-cert
+  rules:
+    - host: api.trygavel.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: gavel-backend-svc
+                port:
+                  number: 8080
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: gavel-sa
+  namespace: default
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: gavel-backend-hpa
+  namespace: default
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: gavel-backend
+  minReplicas: 2
+  maxReplicas: 10
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: 80
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: gavel-backend-pdb
+  namespace: default
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: gavel-backend

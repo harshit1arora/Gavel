@@ -1,0 +1,110 @@
+version: '3.9'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: gavel-backend
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=${NODE_ENV:-production}
+      - PORT=8080
+      - FIREBASE_SERVICE_ACCOUNT=${FIREBASE_SERVICE_ACCOUNT}
+      - FIREBASE_PROJECT_ID=${FIREBASE_PROJECT_ID:-gavel-demo}
+      - REDIS_URL=redis://redis:6379
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - NVIDIA_API_KEY=${NVIDIA_API_KEY}
+      - NVIDIA_API_URL=${NVIDIA_API_URL:-https://integrate.api.nvidia.com/v1/chat/completions}
+      - TWILIO_ACCOUNT_SID=${TWILIO_ACCOUNT_SID}
+      - TWILIO_AUTH_TOKEN=${TWILIO_AUTH_TOKEN}
+      - TWILIO_PHONE_NUMBER=${TWILIO_PHONE_NUMBER}
+      - SENDGRID_API_KEY=${SENDGRID_API_KEY}
+      - SENDGRID_FROM_EMAIL=${SENDGRID_FROM_EMAIL:-noreply@gavel.ai}
+      - RAZORPAY_KEY_ID=${RAZORPAY_KEY_ID}
+      - RAZORPAY_KEY_SECRET=${RAZORPAY_KEY_SECRET}
+      - RAZORPAY_WEBHOOK_SECRET=${RAZORPAY_WEBHOOK_SECRET}
+      - RAZORPAY_ACCOUNT_NUMBER=${RAZORPAY_ACCOUNT_NUMBER}
+      - SETU_BANKING_URL=${SETU_BANKING_URL}
+      - SETU_BANKING_KEY=${SETU_BANKING_KEY}
+      - JWT_SECRET=${JWT_SECRET}
+      - WEBHOOK_SIGNING_SECRET=${WEBHOOK_SIGNING_SECRET}
+      - ALLOWED_ORIGINS=${ALLOWED_ORIGINS:-http://localhost:5173,http://localhost:3000}
+      - SENTRY_DSN=${SENTRY_DSN:-}
+    ports:
+      - "8080:8080"
+    depends_on:
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    networks:
+      - gavel-net
+
+  # Deterministic decision service (FastAPI). The Node gateway can delegate to
+  # it; the browser demo uses the same engine compiled to TypeScript.
+  decision-service:
+    build:
+      context: .
+      dockerfile: engine-py/Dockerfile
+    container_name: gavel-decision
+    restart: unless-stopped
+    environment:
+      - REDIS_URL=redis://redis:6379
+      - GAVEL_API_KEY=${GAVEL_API_KEY:-}
+      - GEMINI_API_KEY=${GEMINI_API_KEY:-}
+      - ALLOWED_ORIGINS=${ALLOWED_ORIGINS:-http://localhost:5173}
+    ports:
+      - "8090:8090"
+    depends_on:
+      redis:
+        condition: service_healthy
+    networks:
+      - gavel-net
+
+  redis:
+    image: redis:7-alpine
+    container_name: gavel-redis
+    restart: unless-stopped
+    command: redis-server --appendonly yes --maxmemory 256mb --maxmemory-policy allkeys-lru
+    volumes:
+      - gavel-redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+    networks:
+      - gavel-net
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    container_name: gavel-frontend
+    restart: unless-stopped
+    environment:
+      - VITE_API_BASE_URL=http://backend:8080
+      - VITE_FIREBASE_API_KEY=${VITE_FIREBASE_API_KEY}
+      - VITE_FIREBASE_AUTH_DOMAIN=${VITE_FIREBASE_AUTH_DOMAIN}
+      - VITE_FIREBASE_PROJECT_ID=${VITE_FIREBASE_PROJECT_ID:-gavel-demo}
+      - VITE_FIREBASE_STORAGE_BUCKET=${VITE_FIREBASE_STORAGE_BUCKET}
+      - VITE_FIREBASE_MESSAGING_SENDER_ID=${VITE_FIREBASE_MESSAGING_SENDER_ID}
+      - VITE_FIREBASE_APP_ID=${VITE_FIREBASE_APP_ID}
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    networks:
+      - gavel-net
+
+volumes:
+  gavel-redis-data:
+
+networks:
+  gavel-net:
+    driver: bridge

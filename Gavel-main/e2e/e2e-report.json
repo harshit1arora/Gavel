@@ -1,0 +1,362 @@
+{
+  "total": 54,
+  "passed": 54,
+  "failed": 0,
+  "bySuite": {
+    "routes": {
+      "pass": 19,
+      "fail": 0
+    },
+    "try": {
+      "pass": 10,
+      "fail": 0
+    },
+    "demo": {
+      "pass": 13,
+      "fail": 0
+    },
+    "nav": {
+      "pass": 5,
+      "fail": 0
+    },
+    "auth": {
+      "pass": 2,
+      "fail": 0
+    },
+    "tools": {
+      "pass": 1,
+      "fail": 0
+    },
+    "mobile": {
+      "pass": 4,
+      "fail": 0
+    }
+  },
+  "failures": [],
+  "results": [
+    {
+      "suite": "routes",
+      "name": "GET /",
+      "pass": true,
+      "detail": "10088 chars"
+    },
+    {
+      "suite": "routes",
+      "name": "GET /platform",
+      "pass": true,
+      "detail": "3626 chars"
+    },
+    {
+      "suite": "routes",
+      "name": "GET /platform/underwriting",
+      "pass": true,
+      "detail": "3626 chars"
+    },
+    {
+      "suite": "routes",
+      "name": "GET /platform/portfolio",
+      "pass": true,
+      "detail": "3431 chars"
+    },
+    {
+      "suite": "routes",
+      "name": "GET /platform/disbursements",
+      "pass": true,
+      "detail": "3529 chars"
+    },
+    {
+      "suite": "routes",
+      "name": "GET /platform/collections",
+      "pass": true,
+      "detail": "3420 chars"
+    },
+    {
+      "suite": "routes",
+      "name": "GET /platform/sentinel",
+      "pass": true,
+      "detail": "3495 chars"
+    },
+    {
+      "suite": "routes",
+      "name": "GET /platform/compliance",
+      "pass": true,
+      "detail": "3476 chars"
+    },
+    {
+      "suite": "routes",
+      "name": "GET /platform/analytics",
+      "pass": true,
+      "detail": "3186 chars"
+    },
+    {
+      "suite": "routes",
+      "name": "GET /platform/developer",
+      "pass": true,
+      "detail": "3433 chars"
+    },
+    {
+      "suite": "routes",
+      "name": "GET /demo",
+      "pass": true,
+      "detail": "2966 chars"
+    },
+    {
+      "suite": "routes",
+      "name": "GET /try",
+      "pass": true,
+      "detail": "1222 chars"
+    },
+    {
+      "suite": "routes",
+      "name": "GET /tools",
+      "pass": true,
+      "detail": "6958 chars"
+    },
+    {
+      "suite": "routes",
+      "name": "GET /pricing",
+      "pass": true,
+      "detail": "2273 chars"
+    },
+    {
+      "suite": "routes",
+      "name": "GET /api-reference",
+      "pass": true,
+      "detail": "2532 chars"
+    },
+    {
+      "suite": "routes",
+      "name": "GET /blog",
+      "pass": true,
+      "detail": "1439 chars"
+    },
+    {
+      "suite": "routes",
+      "name": "GET /about",
+      "pass": true,
+      "detail": "1794 chars"
+    },
+    {
+      "suite": "routes",
+      "name": "GET /security",
+      "pass": true,
+      "detail": "2646 chars"
+    },
+    {
+      "suite": "routes",
+      "name": "GET /loan-approval-predictor",
+      "pass": true,
+      "detail": "6335 chars"
+    },
+    {
+      "suite": "try",
+      "name": "real PDF → decision",
+      "pass": true,
+      "detail": "decision=APPROVE txns=8 income=44,803"
+    },
+    {
+      "suite": "try",
+      "name": "signals derived from PDF",
+      "pass": true,
+      "detail": "income=44,803"
+    },
+    {
+      "suite": "try",
+      "name": "policy rule trace rendered",
+      "pass": true,
+      "detail": "24 rule rows"
+    },
+    {
+      "suite": "try",
+      "name": "transaction table expands",
+      "pass": true,
+      "detail": "8 rows"
+    },
+    {
+      "suite": "try",
+      "name": "decision PDF generated",
+      "pass": true,
+      "detail": "application/pdf 13792 bytes head=%PDF-"
+    },
+    {
+      "suite": "try",
+      "name": "reset returns to upload",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "suite": "try",
+      "name": "sample statement → decision",
+      "pass": true,
+      "detail": "APPROVE"
+    },
+    {
+      "suite": "try",
+      "name": "non-PDF rejected with message",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "suite": "try",
+      "name": "scanned PDF gives a clear error",
+      "pass": true,
+      "detail": "no message"
+    },
+    {
+      "suite": "try",
+      "name": "corrupt PDF fails gracefully (no crash)",
+      "pass": true,
+      "detail": "message shown"
+    },
+    {
+      "suite": "demo",
+      "name": "queue renders 6 applicants",
+      "pass": true,
+      "detail": "6 rows"
+    },
+    {
+      "suite": "demo",
+      "name": "KPIs computed",
+      "pass": true,
+      "detail": "queue=6 approved=3"
+    },
+    {
+      "suite": "demo",
+      "name": "clicking a row opens the file",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "suite": "demo",
+      "name": "decision trace shown for selected file",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "suite": "demo",
+      "name": "approve updates KPI",
+      "pass": true,
+      "detail": "3 → 4"
+    },
+    {
+      "suite": "demo",
+      "name": "approve marks the row Approved",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "suite": "demo",
+      "name": "decline reverses the approval",
+      "pass": true,
+      "detail": "4 → 3"
+    },
+    {
+      "suite": "demo",
+      "name": "re-run engine keeps a decision",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "suite": "demo",
+      "name": "decision PDF generated",
+      "pass": true,
+      "detail": "13782 bytes"
+    },
+    {
+      "suite": "demo",
+      "name": "rejected filter narrows the queue",
+      "pass": true,
+      "detail": "2 rows"
+    },
+    {
+      "suite": "demo",
+      "name": "search filters to one applicant",
+      "pass": true,
+      "detail": "1 rows"
+    },
+    {
+      "suite": "demo",
+      "name": "reset restores the queue",
+      "pass": true,
+      "detail": "6 rows"
+    },
+    {
+      "suite": "demo",
+      "name": "no console errors",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "suite": "nav",
+      "name": "navbar \"Try it free\" → /try",
+      "pass": true,
+      "detail": "http://127.0.0.1:4396/try"
+    },
+    {
+      "suite": "nav",
+      "name": "footer \"Live Demo\" → /demo",
+      "pass": true,
+      "detail": "http://127.0.0.1:4396/demo"
+    },
+    {
+      "suite": "nav",
+      "name": "/pricing still renders after leaving the navbar",
+      "pass": true,
+      "detail": "2273 chars"
+    },
+    {
+      "suite": "nav",
+      "name": "Platform dropdown lists modules",
+      "pass": true,
+      "detail": "9 items"
+    },
+    {
+      "suite": "nav",
+      "name": "dropdown navigates to a module",
+      "pass": true,
+      "detail": "http://127.0.0.1:4396/platform/collections"
+    },
+    {
+      "suite": "auth",
+      "name": "/collections → /platform when logged out",
+      "pass": true,
+      "detail": "http://127.0.0.1:4396/platform"
+    },
+    {
+      "suite": "auth",
+      "name": "/dashboard renders for a logged-out visitor",
+      "pass": true,
+      "detail": "292 chars, content ok"
+    },
+    {
+      "suite": "tools",
+      "name": "all 20 tool pages render and compute",
+      "pass": true,
+      "detail": "20/20"
+    },
+    {
+      "suite": "mobile",
+      "name": "/ has no horizontal overflow",
+      "pass": true,
+      "detail": "overflow=0px"
+    },
+    {
+      "suite": "mobile",
+      "name": "/try has no horizontal overflow",
+      "pass": true,
+      "detail": "overflow=0px"
+    },
+    {
+      "suite": "mobile",
+      "name": "/demo has no horizontal overflow",
+      "pass": true,
+      "detail": "overflow=0px"
+    },
+    {
+      "suite": "mobile",
+      "name": "/platform has no horizontal overflow",
+      "pass": true,
+      "detail": "overflow=0px"
+    }
+  ]
+}

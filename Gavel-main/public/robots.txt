@@ -1,0 +1,34 @@
+User-agent: *
+Allow: /
+Allow: /tools/
+Allow: /blog/
+Allow: /loan-approval-predictor
+Allow: /all-guides
+Allow: /loan-rejection-guides
+Allow: /financial-health-tools
+Allow: /cibil-score-guides
+Allow: /bank-statement-analysis
+Allow: /loan-eligibility-center
+Allow: /emi-education-hub
+
+# Disallow auth-gated and thin pages — these have no SEO value
+Disallow: /upload
+Disallow: /apply
+Disallow: /analyzing
+Disallow: /dashboard
+Disallow: /console
+Disallow: /playground
+Disallow: /setup-wizard
+Disallow: /usage-billing
+Disallow: /metrics-roi
+Disallow: /sales-pipeline
+Disallow: /collections
+Disallow: /loan-origination
+Disallow: /compliance
+Disallow: /agents
+Disallow: /portfolio
+Disallow: /api-reference
+Disallow: /brand
+
+# Sitemap
+Sitemap: https://www.trygavel.com/sitemap.xml

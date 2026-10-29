@@ -1,0 +1,147 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gavel-decision-config
+  namespace: default
+data:
+  ALLOWED_ORIGINS: "https://trygavel.com,https://www.trygavel.com"
+  GEMINI_MODEL: "gemini-1.5-flash"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: gavel-decision-secrets
+  namespace: default
+type: Opaque
+stringData:
+  GAVEL_API_KEY: "${GAVEL_API_KEY}"
+  GEMINI_API_KEY: "${GEMINI_API_KEY}"
+  REDIS_URL: "${REDIS_URL}"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gavel-decision
+  namespace: default
+  labels:
+    app: gavel-decision
+    tier: engine
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: gavel-decision
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      labels:
+        app: gavel-decision
+        tier: engine
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8090"
+    spec:
+      serviceAccountName: gavel-sa
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1001
+        fsGroup: 1001
+      containers:
+        - name: decision
+          image: gavel-decision:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8090
+              name: http
+          envFrom:
+            - configMapRef:
+                name: gavel-decision-config
+            - secretRef:
+                name: gavel-decision-secrets
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8090
+            initialDelaySeconds: 10
+            periodSeconds: 30
+            timeoutSeconds: 3
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: 8090
+            initialDelaySeconds: 3
+            periodSeconds: 10
+            timeoutSeconds: 3
+            failureThreshold: 3
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop:
+                - ALL
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+      volumes:
+        - name: tmp
+          emptyDir: {}
+      terminationGracePeriodSeconds: 20
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gavel-decision-svc
+  namespace: default
+  labels:
+    app: gavel-decision
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8090
+      targetPort: 8090
+      name: http
+  selector:
+    app: gavel-decision
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: gavel-decision-hpa
+  namespace: default
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: gavel-decision
+  minReplicas: 2
+  maxReplicas: 12
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 65
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: gavel-decision-pdb
+  namespace: default
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: gavel-decision

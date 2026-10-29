@@ -1,0 +1,50 @@
+{
+  "salaries": [
+    10000, 12000, 15000, 18000, 20000, 22000, 25000, 28000, 30000, 35000,
+    40000, 45000, 50000, 60000, 70000, 75000, 80000, 90000, 100000, 120000,
+    125000, 150000, 175000, 200000, 250000, 300000, 350000, 400000, 450000,
+    500000
+  ],
+  "loanAmounts": [
+    20000, 30000, 50000, 75000, 100000, 150000, 200000, 250000, 300000,
+    400000, 500000, 600000, 700000, 800000, 900000, 1000000, 1200000,
+    1500000, 2000000, 2500000, 3000000, 4000000, 5000000, 7500000,
+    10000000
+  ],
+  "cities": [
+    "mumbai", "delhi", "bangalore", "hyderabad", "chennai", "pune", "kolkata",
+    "ahmedabad", "jaipur", "kochi", "lucknow", "chandigarh", "indore", "bhopal",
+    "nagpur", "surat", "vadodara", "coimbatore", "visakhapatnam", "noida",
+    "gurugram", "thane", "navi-mumbai", "ghaziabad", "faridabad", "patna",
+    "ludhiana", "agra", "nashik", "ranchi", "meerut", "rajkot", "varanasi",
+    "srinagar", "aurangabad", "dhanbad", "amritsar", "allahabad", "gwalior",
+    "howrah", "jabalpur", "madurai", "jodhpur", "salem", "raipur", "hubli",
+    "guwahati", "solapur", "trichy", "bareilly", "mysore", "tiruppur",
+    "dehradun", "jalandhar", "jammu", "shimla", "panaji", "puducherry"
+  ],
+  "professions": [
+    "software-engineer", "doctor", "teacher", "chartered-accountant",
+    "freelancer", "startup-founder", "gig-worker", "government-employee",
+    "bank-employee", "lawyer", "architect", "data-scientist", "product-manager",
+    "sales-executive", "business-owner", "nurse", "police-officer",
+    "pharmacist", "pilot", "graphic-designer", "writer", "delivery-partner",
+    "real-estate-agent", "consultant", "student", "retired"
+  ],
+  "banks": [
+    "hdfc", "icici", "sbi", "axis", "kotak", "bajaj-finserv", "tata-capital",
+    "idfc-first", "yes-bank", "pnb", "bank-of-baroda", "canara-bank",
+    "union-bank", "moneytap", "fullerton-india"
+  ],
+  "intents": [
+    "poor-cibil-score", "loan-rejected", "high-emi-burden",
+    "self-employed-loan", "no-credit-history", "salary-credited-late",
+    "frequent-job-changes", "low-salary", "too-many-loans",
+    "credit-card-defaulter", "bounced-cheques", "loan-settlement-impact",
+    "joint-loan-applicant", "loan-for-women", "loan-after-bankruptcy",
+    "why-loans-get-rejected", "how-banks-check-bank-statements",
+    "how-to-improve-loan-approval", "salary-not-credited-loan-rejection",
+    "upi-spending-loan-impact", "credit-card-cash-withdrawal-rejection",
+    "multiple-active-loans", "signature-mismatch-rejection",
+    "mandate-bounced-rejection", "address-verification-failed"
+  ]
+}

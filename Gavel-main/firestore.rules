@@ -1,0 +1,98 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper: Check if user is the org owner
+    function isOwner() {
+      return request.auth != null && resource.data.orgId == request.auth.uid;
+    }
+    function isOwnerCreate() {
+      return request.auth != null && request.resource.data.orgId == request.auth.uid;
+    }
+
+    // 1. Applications: Public demo + tenant-isolated access
+    match /applications/{docId} {
+      allow read: if 
+          (resource.data.orgId == 'public-demo-bank') ||
+          isOwner();
+
+      allow create: if 
+          (request.resource.data.orgId == 'public-demo-bank') ||
+          isOwnerCreate();
+
+      allow update: if isOwner();
+      allow delete: if false; // Applications are immutable records
+    }
+    
+    // 2. API Keys: Only org owner can read their own keys
+    match /api_keys/{docId} {
+      allow read: if isOwner();
+      allow create: if false; // Keys are created via backend only
+      allow update: if false; // Keys are managed via backend only
+      allow delete: if false;
+    }
+
+    // 3. Policies: Tenant-isolated read/write
+    match /policies/{docId} {
+      allow read: if isOwner();
+      allow create: if isOwnerCreate();
+      allow update: if isOwner();
+      allow delete: if false;
+    }
+
+    // 4. Webhooks: Org-specific config
+    match /webhooks/{orgId} {
+      allow read: if request.auth != null && orgId == request.auth.uid;
+      allow write: if false; // Managed via backend only (contains secret keys)
+    }
+
+    // 5. Monitored Borrowers (Sentinel): Tenant-isolated
+    match /monitored_borrowers/{docId} {
+      allow read: if isOwner();
+      allow write: if false; // Managed via backend signal ingestion only
+
+      // History archive subcollection
+      match /history_archive/{historyId} {
+        allow read: if request.auth != null;
+        allow write: if false;
+      }
+    }
+
+    // 6. Audit Logs: Read-only for org owners, write-only from backend
+    match /audit_logs/{docId} {
+      allow read: if isOwner();
+      allow write: if false; // Only backend writes audit logs (WORM)
+    }
+
+    // 7. Usage Logs: Read/Create
+    match /usage_logs/{docId} {
+      allow read: if isOwner();
+      allow create: if isOwnerCreate();
+      allow update, delete: if false;
+    }
+
+    // 7.5 Team Members: Read/Write for owner
+    match /team_members/{docId} {
+      allow read: if isOwner();
+      allow create: if isOwnerCreate();
+      allow update, delete: if isOwner();
+    }
+
+    // 8. System config: Read-only
+    match /system_config/{docId} {
+      allow read: if request.auth != null;
+      allow write: if false;
+    }
+
+    // 9. Users: Profile read/write restricted to self
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // DEFAULT: Deny everything else
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

@@ -1,0 +1,260 @@
+{
+  "policy_id": "pilot-acme",
+  "pilot": "Acme Finance (personal loan, salaried)",
+  "version": "2.1.0",
+  "min_data_months": 3,
+  "bands": {
+    "approve_min": 70,
+    "review_min": 45
+  },
+  "limit_formula": {
+    "method": "income_multiple",
+    "income_multiple": 7,
+    "score_weighting": true,
+    "round_to_nearest": 10000,
+    "max_limit": 1000000,
+    "min_limit": 0
+  },
+  "rules": [
+    {
+      "id": "R001",
+      "name": "Minimum Income Floor",
+      "field": "monthly_income",
+      "op": "gte",
+      "value": 20000,
+      "action": "hard_reject",
+      "weight": 0,
+      "explanation": "Monthly income must be at least ₹20,000. Below this is a hard reject with no score override."
+    },
+    {
+      "id": "R002",
+      "name": "DTI Hard Ceiling",
+      "field": "emi_ratio",
+      "op": "lte",
+      "value": 0.6,
+      "action": "hard_reject",
+      "weight": 0,
+      "explanation": "EMI obligations above 60% of income breach the hard debt-to-income ceiling."
+    },
+    {
+      "id": "R003",
+      "name": "No Overdrawn Balance",
+      "field": "min_balance",
+      "op": "gte",
+      "value": 0,
+      "action": "hard_reject",
+      "weight": 0,
+      "explanation": "A negative running balance signals overdraft / cheque bounce risk, hard reject."
+    },
+    {
+      "id": "R004",
+      "name": "Healthy Income Band",
+      "field": "monthly_income",
+      "op": "gte",
+      "value": 35000,
+      "action": "score",
+      "weight": 0.06,
+      "explanation": "Monthly income of ₹35,000+ indicates comfortable repayment capacity."
+    },
+    {
+      "id": "R005",
+      "name": "Premium Income Band",
+      "field": "monthly_income",
+      "op": "gte",
+      "value": 50000,
+      "action": "score",
+      "weight": 0.04,
+      "explanation": "Monthly income of ₹50,000+ adds further repayment headroom."
+    },
+    {
+      "id": "R006",
+      "name": "EMI Ratio Acceptable",
+      "field": "emi_ratio",
+      "op": "lte",
+      "value": 0.5,
+      "action": "score",
+      "weight": 0.12,
+      "explanation": "EMI obligations within 50% of income (the preferred DTI band)."
+    },
+    {
+      "id": "R007",
+      "name": "EMI Ratio Strong",
+      "field": "emi_ratio",
+      "op": "lte",
+      "value": 0.3,
+      "action": "score",
+      "weight": 0.06,
+      "explanation": "EMI obligations within 30% of income leave a large repayment buffer."
+    },
+    {
+      "id": "R008",
+      "name": "Limited Active EMIs",
+      "field": "emi_count",
+      "op": "lte",
+      "value": 1,
+      "action": "score",
+      "weight": 0.06,
+      "explanation": "At most one existing EMI obligation detected in the statement."
+    },
+    {
+      "id": "R009",
+      "name": "Positive Residual Balance",
+      "field": "avg_residual",
+      "op": "gt",
+      "value": 5000,
+      "action": "score",
+      "weight": 0.06,
+      "explanation": "Average end-of-period balance above ₹5,000 shows a cash buffer."
+    },
+    {
+      "id": "R010",
+      "name": "Strong Residual Balance",
+      "field": "avg_residual",
+      "op": "gt",
+      "value": 25000,
+      "action": "score",
+      "weight": 0.06,
+      "explanation": "Average balance above ₹25,000 indicates consistent surplus."
+    },
+    {
+      "id": "R011",
+      "name": "Salary Regularity",
+      "field": "salary_count",
+      "op": "gte",
+      "value": 1,
+      "action": "score",
+      "weight": 0.1,
+      "explanation": "Recognisable salary credit(s) present, a stable, verifiable income source."
+    },
+    {
+      "id": "R012",
+      "name": "Low Income Volatility",
+      "field": "income_volatility",
+      "op": "lte",
+      "value": 0.3,
+      "action": "score",
+      "weight": 0.08,
+      "explanation": "Month-on-month income varies by 30% or less (coefficient of variation)."
+    },
+    {
+      "id": "R013",
+      "name": "Salaried Income Type",
+      "field": "income_type",
+      "op": "eq",
+      "value": "salary",
+      "action": "score",
+      "weight": 0.08,
+      "explanation": "Income is salaried rather than variable / self-employed."
+    },
+    {
+      "id": "R014",
+      "name": "Adequate Savings Ratio",
+      "field": "savings_ratio",
+      "op": "gte",
+      "value": 0.2,
+      "action": "score",
+      "weight": 0.06,
+      "explanation": "At least 20% of inflows are retained after outflows."
+    },
+    {
+      "id": "R015",
+      "name": "Sufficient Transaction Volume",
+      "field": "transaction_count",
+      "op": "gte",
+      "value": 3,
+      "action": "score",
+      "weight": 0.04,
+      "explanation": "Enough transactions to derive a meaningful cash-flow picture."
+    },
+    {
+      "id": "R016",
+      "name": "Credit Activity Present",
+      "field": "credit_count",
+      "op": "gte",
+      "value": 1,
+      "action": "score",
+      "weight": 0.03,
+      "explanation": "At least one credit (inflow) observed in the period."
+    },
+    {
+      "id": "R017",
+      "name": "Substantial Inflow Volume",
+      "field": "total_credits",
+      "op": "gte",
+      "value": 100000,
+      "action": "score",
+      "weight": 0.05,
+      "explanation": "Total inflows over the period exceed ₹1,00,000."
+    },
+    {
+      "id": "R018",
+      "name": "Above Comfort Income",
+      "field": "monthly_income",
+      "op": "gte",
+      "value": 25000,
+      "action": "score",
+      "weight": 0.05,
+      "explanation": "Monthly income comfortably clears the ₹25,000 comfort threshold."
+    },
+    {
+      "id": "R019",
+      "name": "Self-Employment Flag",
+      "field": "income_type",
+      "op": "eq",
+      "value": "salary",
+      "action": "review_flag",
+      "weight": 0,
+      "explanation": "Variable / self-employed income routes the file to manual review."
+    },
+    {
+      "id": "R020",
+      "name": "Volatility Review Flag",
+      "field": "income_volatility",
+      "op": "lte",
+      "value": 0.4,
+      "action": "review_flag",
+      "weight": 0,
+      "explanation": "Income volatility above 40% routes the file to manual review."
+    },
+    {
+      "id": "R021",
+      "name": "Multiple EMI Flag",
+      "field": "emi_count",
+      "op": "lte",
+      "value": 2,
+      "action": "review_flag",
+      "weight": 0,
+      "explanation": "More than two active EMIs routes the file to manual review."
+    },
+    {
+      "id": "R022",
+      "name": "Thin Income Flag",
+      "field": "monthly_income",
+      "op": "gte",
+      "value": 18000,
+      "action": "review_flag",
+      "weight": 0,
+      "explanation": "Income below ₹18,000 routes the file to manual review."
+    },
+    {
+      "id": "R023",
+      "name": "Low Buffer Flag",
+      "field": "avg_residual",
+      "op": "gt",
+      "value": 1000,
+      "action": "review_flag",
+      "weight": 0,
+      "explanation": "A near-zero average balance routes the file to manual review."
+    },
+    {
+      "id": "R024",
+      "name": "Income Source Flag",
+      "field": "salary_count",
+      "op": "gte",
+      "value": 1,
+      "action": "review_flag",
+      "weight": 0,
+      "explanation": "Absence of any salary credit routes the file to manual review."
+    }
+  ]
+}

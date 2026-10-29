@@ -1,0 +1,13 @@
+[core]
+	repositoryformatversion = 0
+	filemode = false
+	bare = false
+	logallrefupdates = true
+	symlinks = false
+	ignorecase = true
+[user]
+	email = harshit1arora@users.noreply.github.com
+	name = harshit1arora
+[remote "origin"]
+	url = https://github.com/harshit1arora/Arera-AI.git
+	fetch = +refs/heads/*:refs/remotes/origin/*

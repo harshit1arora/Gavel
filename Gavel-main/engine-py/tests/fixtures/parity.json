@@ -1,0 +1,2488 @@
+{
+  "cases": [
+    {
+      "id": "apl-1024",
+      "name": "Rajesh Kumar",
+      "months": 6,
+      "transactions": [
+        {
+          "date": "2026-04-03",
+          "description": "SALARY CREDIT - INFOSYS LTD",
+          "amount": 44732,
+          "type": "credit",
+          "balance": 86732
+        },
+        {
+          "date": "2026-04-07",
+          "description": "EMI BAJAJ FINANCE",
+          "amount": 8500,
+          "type": "debit",
+          "balance": 78232
+        },
+        {
+          "date": "2026-04-09",
+          "description": "UPI - SWIGGY",
+          "amount": 4130,
+          "type": "debit",
+          "balance": 74102
+        },
+        {
+          "date": "2026-04-13",
+          "description": "UPI - BIGBASKET",
+          "amount": 4130,
+          "type": "debit",
+          "balance": 69972
+        },
+        {
+          "date": "2026-04-17",
+          "description": "POS - RELIANCE FRESH",
+          "amount": 4130,
+          "type": "debit",
+          "balance": 65842
+        },
+        {
+          "date": "2026-04-21",
+          "description": "UPI - AMAZON PAY",
+          "amount": 4130,
+          "type": "debit",
+          "balance": 61712
+        },
+        {
+          "date": "2026-05-03",
+          "description": "SALARY CREDIT - INFOSYS LTD",
+          "amount": 44710,
+          "type": "credit",
+          "balance": 106422
+        },
+        {
+          "date": "2026-05-07",
+          "description": "EMI BAJAJ FINANCE",
+          "amount": 8500,
+          "type": "debit",
+          "balance": 97922
+        },
+        {
+          "date": "2026-05-09",
+          "description": "UPI - SWIGGY",
+          "amount": 4239,
+          "type": "debit",
+          "balance": 93683
+        },
+        {
+          "date": "2026-05-13",
+          "description": "UPI - BIGBASKET",
+          "amount": 4239,
+          "type": "debit",
+          "balance": 89444
+        },
+        {
+          "date": "2026-05-17",
+          "description": "POS - RELIANCE FRESH",
+          "amount": 4239,
+          "type": "debit",
+          "balance": 85205
+        },
+        {
+          "date": "2026-05-21",
+          "description": "UPI - AMAZON PAY",
+          "amount": 4239,
+          "type": "debit",
+          "balance": 80966
+        },
+        {
+          "date": "2026-06-03",
+          "description": "SALARY CREDIT - INFOSYS LTD",
+          "amount": 44810,
+          "type": "credit",
+          "balance": 125776
+        },
+        {
+          "date": "2026-06-07",
+          "description": "EMI BAJAJ FINANCE",
+          "amount": 8500,
+          "type": "debit",
+          "balance": 117276
+        },
+        {
+          "date": "2026-06-09",
+          "description": "UPI - SWIGGY",
+          "amount": 3625,
+          "type": "debit",
+          "balance": 113651
+        },
+        {
+          "date": "2026-06-13",
+          "description": "UPI - BIGBASKET",
+          "amount": 3625,
+          "type": "debit",
+          "balance": 110026
+        },
+        {
+          "date": "2026-06-17",
+          "description": "POS - RELIANCE FRESH",
+          "amount": 3625,
+          "type": "debit",
+          "balance": 106401
+        },
+        {
+          "date": "2026-06-21",
+          "description": "UPI - AMAZON PAY",
+          "amount": 3625,
+          "type": "debit",
+          "balance": 102776
+        },
+        {
+          "date": "2026-07-03",
+          "description": "SALARY CREDIT - INFOSYS LTD",
+          "amount": 44911,
+          "type": "credit",
+          "balance": 147687
+        },
+        {
+          "date": "2026-07-07",
+          "description": "EMI BAJAJ FINANCE",
+          "amount": 8500,
+          "type": "debit",
+          "balance": 139187
+        },
+        {
+          "date": "2026-07-09",
+          "description": "UPI - SWIGGY",
+          "amount": 3202,
+          "type": "debit",
+          "balance": 135985
+        },
+        {
+          "date": "2026-07-13",
+          "description": "UPI - BIGBASKET",
+          "amount": 3202,
+          "type": "debit",
+          "balance": 132783
+        },
+        {
+          "date": "2026-07-17",
+          "description": "POS - RELIANCE FRESH",
+          "amount": 3202,
+          "type": "debit",
+          "balance": 129581
+        },
+        {
+          "date": "2026-07-21",
+          "description": "UPI - AMAZON PAY",
+          "amount": 3202,
+          "type": "debit",
+          "balance": 126379
+        },
+        {
+          "date": "2026-08-03",
+          "description": "SALARY CREDIT - INFOSYS LTD",
+          "amount": 44758,
+          "type": "credit",
+          "balance": 171137
+        },
+        {
+          "date": "2026-08-07",
+          "description": "EMI BAJAJ FINANCE",
+          "amount": 8500,
+          "type": "debit",
+          "balance": 162637
+        },
+        {
+          "date": "2026-08-09",
+          "description": "UPI - SWIGGY",
+          "amount": 2963,
+          "type": "debit",
+          "balance": 159674
+        },
+        {
+          "date": "2026-08-13",
+          "description": "UPI - BIGBASKET",
+          "amount": 2963,
+          "type": "debit",
+          "balance": 156711
+        },
+        {
+          "date": "2026-08-17",
+          "description": "POS - RELIANCE FRESH",
+          "amount": 2963,
+          "type": "debit",
+          "balance": 153748
+        },
+        {
+          "date": "2026-08-21",
+          "description": "UPI - AMAZON PAY",
+          "amount": 2963,
+          "type": "debit",
+          "balance": 150785
+        },
+        {
+          "date": "2026-09-03",
+          "description": "SALARY CREDIT - INFOSYS LTD",
+          "amount": 44911,
+          "type": "credit",
+          "balance": 195696
+        },
+        {
+          "date": "2026-09-07",
+          "description": "EMI BAJAJ FINANCE",
+          "amount": 8500,
+          "type": "debit",
+          "balance": 187196
+        },
+        {
+          "date": "2026-09-09",
+          "description": "UPI - SWIGGY",
+          "amount": 3520,
+          "type": "debit",
+          "balance": 183676
+        },
+        {
+          "date": "2026-09-13",
+          "description": "UPI - BIGBASKET",
+          "amount": 3520,
+          "type": "debit",
+          "balance": 180156
+        },
+        {
+          "date": "2026-09-17",
+          "description": "POS - RELIANCE FRESH",
+          "amount": 3520,
+          "type": "debit",
+          "balance": 176636
+        },
+        {
+          "date": "2026-09-21",
+          "description": "UPI - AMAZON PAY",
+          "amount": 3520,
+          "type": "debit",
+          "balance": 173116
+        }
+      ],
+      "expected": {
+        "decision": "APPROVE",
+        "risk_score": 91,
+        "credit_limit": 290000,
+        "confidence": 0.91,
+        "policy_id": "pilot-acme",
+        "signals": {
+          "monthly_income": 44805,
+          "emi_ratio": 0.1897,
+          "emi_count": 1,
+          "emi_total": 51000,
+          "avg_residual": 125803,
+          "min_balance": 61712,
+          "salary_count": 6,
+          "income_volatility": 0.0018,
+          "income_type": "salary",
+          "months_of_data": 6,
+          "months_active": 6,
+          "transaction_count": 36,
+          "credit_count": 6,
+          "debit_count": 30,
+          "total_credits": 268832,
+          "total_debits": 137716,
+          "savings_ratio": 0.4877
+        },
+        "rules_fired": [
+          {
+            "id": "R001",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R002",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R003",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R004",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R005",
+            "result": false,
+            "skipped": false
+          },
+          {
+            "id": "R006",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R007",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R008",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R009",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R010",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R011",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R012",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R013",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R014",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R015",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R016",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R017",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R018",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R019",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R020",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R021",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R022",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R023",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R024",
+            "result": true,
+            "skipped": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "apl-1025",
+      "name": "Priya Sharma",
+      "months": 6,
+      "transactions": [
+        {
+          "date": "2026-04-03",
+          "description": "SALARY CREDIT - SELF EMPLOYED, RETAIL",
+          "amount": 42912,
+          "type": "credit",
+          "balance": 84912
+        },
+        {
+          "date": "2026-04-07",
+          "description": "EMI HDFC BANK",
+          "amount": 15000,
+          "type": "debit",
+          "balance": 69912
+        },
+        {
+          "date": "2026-04-07",
+          "description": "EMI ICICI PERSONAL LOAN",
+          "amount": 8200,
+          "type": "debit",
+          "balance": 61712
+        },
+        {
+          "date": "2026-04-07",
+          "description": "EMI TATA CAPITAL",
+          "amount": 6100,
+          "type": "debit",
+          "balance": 55612
+        },
+        {
+          "date": "2026-04-09",
+          "description": "UPI - SWIGGY",
+          "amount": 5609,
+          "type": "debit",
+          "balance": 50003
+        },
+        {
+          "date": "2026-04-13",
+          "description": "UPI - BIGBASKET",
+          "amount": 5609,
+          "type": "debit",
+          "balance": 44394
+        },
+        {
+          "date": "2026-04-17",
+          "description": "POS - RELIANCE FRESH",
+          "amount": 5609,
+          "type": "debit",
+          "balance": 38785
+        },
+        {
+          "date": "2026-04-21",
+          "description": "UPI - AMAZON PAY",
+          "amount": 5609,
+          "type": "debit",
+          "balance": 33176
+        },
+        {
+          "date": "2026-05-07",
+          "description": "IMPS INWARD - PART PAYMENT RECEIVED",
+          "amount": 26413,
+          "type": "credit",
+          "balance": 59589
+        },
+        {
+          "date": "2026-05-07",
+          "description": "EMI HDFC BANK",
+          "amount": 15000,
+          "type": "debit",
+          "balance": 44589
+        },
+        {
+          "date": "2026-05-07",
+          "description": "EMI ICICI PERSONAL LOAN",
+          "amount": 8200,
+          "type": "debit",
+          "balance": 36389
+        },
+        {
+          "date": "2026-05-07",
+          "description": "EMI TATA CAPITAL",
+          "amount": 6100,
+          "type": "debit",
+          "balance": 30289
+        },
+        {
+          "date": "2026-05-09",
+          "description": "UPI - SWIGGY",
+          "amount": 6201,
+          "type": "debit",
+          "balance": 24088
+        },
+        {
+          "date": "2026-05-13",
+          "description": "UPI - BIGBASKET",
+          "amount": 6201,
+          "type": "debit",
+          "balance": 17887
+        },
+        {
+          "date": "2026-05-17",
+          "description": "POS - RELIANCE FRESH",
+          "amount": 6201,
+          "type": "debit",
+          "balance": 11686
+        },
+        {
+          "date": "2026-05-21",
+          "description": "UPI - AMAZON PAY",
+          "amount": 6201,
+          "type": "debit",
+          "balance": 5485
+        },
+        {
+          "date": "2026-05-21",
+          "description": "RETURN - INSUFFICIENT FUNDS (BOUNCE CHARGES)",
+          "amount": 1500,
+          "type": "debit",
+          "balance": 3985
+        },
+        {
+          "date": "2026-05-22",
+          "description": "OD CHARGES - OVERDRAWN ACCOUNT",
+          "amount": 350,
+          "type": "debit",
+          "balance": -1500
+        },
+        {
+          "date": "2026-06-07",
+          "description": "IMPS INWARD - PART PAYMENT RECEIVED",
+          "amount": 27244,
+          "type": "credit",
+          "balance": 39244
+        },
+        {
+          "date": "2026-06-07",
+          "description": "EMI HDFC BANK",
+          "amount": 15000,
+          "type": "debit",
+          "balance": 24244
+        },
+        {
+          "date": "2026-06-07",
+          "description": "EMI ICICI PERSONAL LOAN",
+          "amount": 8200,
+          "type": "debit",
+          "balance": 16044
+        },
+        {
+          "date": "2026-06-07",
+          "description": "EMI TATA CAPITAL",
+          "amount": 6100,
+          "type": "debit",
+          "balance": 9944
+        },
+        {
+          "date": "2026-06-09",
+          "description": "UPI - SWIGGY",
+          "amount": 5476,
+          "type": "debit",
+          "balance": 4468
+        },
+        {
+          "date": "2026-06-13",
+          "description": "UPI - BIGBASKET",
+          "amount": 5476,
+          "type": "debit",
+          "balance": -1008
+        },
+        {
+          "date": "2026-06-17",
+          "description": "POS - RELIANCE FRESH",
+          "amount": 5476,
+          "type": "debit",
+          "balance": -6484
+        },
+        {
+          "date": "2026-06-21",
+          "description": "UPI - AMAZON PAY",
+          "amount": 5476,
+          "type": "debit",
+          "balance": -11960
+        },
+        {
+          "date": "2026-07-07",
+          "description": "IMPS INWARD - PART PAYMENT RECEIVED",
+          "amount": 14496,
+          "type": "credit",
+          "balance": 2536
+        },
+        {
+          "date": "2026-07-07",
+          "description": "EMI HDFC BANK",
+          "amount": 15000,
+          "type": "debit",
+          "balance": -12464
+        },
+        {
+          "date": "2026-07-07",
+          "description": "EMI ICICI PERSONAL LOAN",
+          "amount": 8200,
+          "type": "debit",
+          "balance": -20664
+        },
+        {
+          "date": "2026-07-07",
+          "description": "EMI TATA CAPITAL",
+          "amount": 6100,
+          "type": "debit",
+          "balance": -26764
+        },
+        {
+          "date": "2026-07-09",
+          "description": "UPI - SWIGGY",
+          "amount": 4286,
+          "type": "debit",
+          "balance": -31050
+        },
+        {
+          "date": "2026-07-13",
+          "description": "UPI - BIGBASKET",
+          "amount": 4286,
+          "type": "debit",
+          "balance": -35336
+        },
+        {
+          "date": "2026-07-17",
+          "description": "POS - RELIANCE FRESH",
+          "amount": 4286,
+          "type": "debit",
+          "balance": -39622
+        },
+        {
+          "date": "2026-07-21",
+          "description": "UPI - AMAZON PAY",
+          "amount": 4286,
+          "type": "debit",
+          "balance": -43908
+        },
+        {
+          "date": "2026-08-07",
+          "description": "IMPS INWARD - PART PAYMENT RECEIVED",
+          "amount": 21768,
+          "type": "credit",
+          "balance": -22140
+        },
+        {
+          "date": "2026-08-07",
+          "description": "EMI HDFC BANK",
+          "amount": 15000,
+          "type": "debit",
+          "balance": -37140
+        },
+        {
+          "date": "2026-08-07",
+          "description": "EMI ICICI PERSONAL LOAN",
+          "amount": 8200,
+          "type": "debit",
+          "balance": -45340
+        },
+        {
+          "date": "2026-08-07",
+          "description": "EMI TATA CAPITAL",
+          "amount": 6100,
+          "type": "debit",
+          "balance": -51440
+        },
+        {
+          "date": "2026-08-09",
+          "description": "UPI - SWIGGY",
+          "amount": 5362,
+          "type": "debit",
+          "balance": -56802
+        },
+        {
+          "date": "2026-08-13",
+          "description": "UPI - BIGBASKET",
+          "amount": 5362,
+          "type": "debit",
+          "balance": -62164
+        },
+        {
+          "date": "2026-08-17",
+          "description": "POS - RELIANCE FRESH",
+          "amount": 5362,
+          "type": "debit",
+          "balance": -67526
+        },
+        {
+          "date": "2026-08-21",
+          "description": "UPI - AMAZON PAY",
+          "amount": 5362,
+          "type": "debit",
+          "balance": -72888
+        },
+        {
+          "date": "2026-08-21",
+          "description": "RETURN - INSUFFICIENT FUNDS (BOUNCE CHARGES)",
+          "amount": 1500,
+          "type": "debit",
+          "balance": -74388
+        },
+        {
+          "date": "2026-08-22",
+          "description": "OD CHARGES - OVERDRAWN ACCOUNT",
+          "amount": 350,
+          "type": "debit",
+          "balance": -1500
+        },
+        {
+          "date": "2026-09-07",
+          "description": "IMPS INWARD - PART PAYMENT RECEIVED",
+          "amount": 20402,
+          "type": "credit",
+          "balance": 32402
+        },
+        {
+          "date": "2026-09-07",
+          "description": "EMI HDFC BANK",
+          "amount": 15000,
+          "type": "debit",
+          "balance": 17402
+        },
+        {
+          "date": "2026-09-07",
+          "description": "EMI ICICI PERSONAL LOAN",
+          "amount": 8200,
+          "type": "debit",
+          "balance": 9202
+        },
+        {
+          "date": "2026-09-07",
+          "description": "EMI TATA CAPITAL",
+          "amount": 6100,
+          "type": "debit",
+          "balance": 3102
+        },
+        {
+          "date": "2026-09-09",
+          "description": "UPI - SWIGGY",
+          "amount": 4934,
+          "type": "debit",
+          "balance": -1832
+        },
+        {
+          "date": "2026-09-13",
+          "description": "UPI - BIGBASKET",
+          "amount": 4934,
+          "type": "debit",
+          "balance": -6766
+        },
+        {
+          "date": "2026-09-17",
+          "description": "POS - RELIANCE FRESH",
+          "amount": 4934,
+          "type": "debit",
+          "balance": -11700
+        },
+        {
+          "date": "2026-09-21",
+          "description": "UPI - AMAZON PAY",
+          "amount": 4934,
+          "type": "debit",
+          "balance": -16634
+        }
+      ],
+      "expected": {
+        "decision": "REJECT",
+        "risk_score": 41,
+        "credit_limit": 0,
+        "confidence": 0.91,
+        "policy_id": "pilot-acme",
+        "signals": {
+          "monthly_income": 42912,
+          "emi_ratio": 0.6828,
+          "emi_count": 3,
+          "emi_total": 175800,
+          "avg_residual": 1386,
+          "min_balance": -74388,
+          "salary_count": 1,
+          "income_volatility": 0.3458,
+          "income_type": "salary",
+          "months_of_data": 6,
+          "months_active": 6,
+          "transaction_count": 52,
+          "credit_count": 6,
+          "debit_count": 46,
+          "total_credits": 153235,
+          "total_debits": 306972,
+          "savings_ratio": -1.0033
+        },
+        "rules_fired": [
+          {
+            "id": "R001",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R002",
+            "result": false,
+            "skipped": false
+          },
+          {
+            "id": "R003",
+            "result": false,
+            "skipped": false
+          },
+          {
+            "id": "R004",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R005",
+            "result": false,
+            "skipped": false
+          },
+          {
+            "id": "R006",
+            "result": false,
+            "skipped": false
+          },
+          {
+            "id": "R007",
+            "result": false,
+            "skipped": false
+          },
+          {
+            "id": "R008",
+            "result": false,
+            "skipped": false
+          },
+          {
+            "id": "R009",
+            "result": false,
+            "skipped": false
+          },
+          {
+            "id": "R010",
+            "result": false,
+            "skipped": false
+          },
+          {
+            "id": "R011",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R012",
+            "result": false,
+            "skipped": false
+          },
+          {
+            "id": "R013",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R014",
+            "result": false,
+            "skipped": false
+          },
+          {
+            "id": "R015",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R016",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R017",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R018",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R019",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R020",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R021",
+            "result": false,
+            "skipped": false
+          },
+          {
+            "id": "R022",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R023",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R024",
+            "result": true,
+            "skipped": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "apl-1026",
+      "name": "Amit Verma",
+      "months": 6,
+      "transactions": [
+        {
+          "date": "2026-04-07",
+          "description": "IMPS INWARD - PART PAYMENT RECEIVED",
+          "amount": 15685,
+          "type": "credit",
+          "balance": 57685
+        },
+        {
+          "date": "2026-04-07",
+          "description": "EMI FULLERTON INDIA",
+          "amount": 7400,
+          "type": "debit",
+          "balance": 50285
+        },
+        {
+          "date": "2026-04-09",
+          "description": "UPI - SWIGGY",
+          "amount": 4938,
+          "type": "debit",
+          "balance": 45347
+        },
+        {
+          "date": "2026-04-13",
+          "description": "UPI - BIGBASKET",
+          "amount": 4938,
+          "type": "debit",
+          "balance": 40409
+        },
+        {
+          "date": "2026-04-17",
+          "description": "POS - RELIANCE FRESH",
+          "amount": 4938,
+          "type": "debit",
+          "balance": 35471
+        },
+        {
+          "date": "2026-04-21",
+          "description": "UPI - AMAZON PAY",
+          "amount": 4938,
+          "type": "debit",
+          "balance": 30533
+        },
+        {
+          "date": "2026-05-07",
+          "description": "IMPS INWARD - PART PAYMENT RECEIVED",
+          "amount": 12792,
+          "type": "credit",
+          "balance": 43325
+        },
+        {
+          "date": "2026-05-07",
+          "description": "EMI FULLERTON INDIA",
+          "amount": 7400,
+          "type": "debit",
+          "balance": 35925
+        },
+        {
+          "date": "2026-05-09",
+          "description": "UPI - SWIGGY",
+          "amount": 5716,
+          "type": "debit",
+          "balance": 30209
+        },
+        {
+          "date": "2026-05-13",
+          "description": "UPI - BIGBASKET",
+          "amount": 5716,
+          "type": "debit",
+          "balance": 24493
+        },
+        {
+          "date": "2026-05-17",
+          "description": "POS - RELIANCE FRESH",
+          "amount": 5716,
+          "type": "debit",
+          "balance": 18777
+        },
+        {
+          "date": "2026-05-21",
+          "description": "UPI - AMAZON PAY",
+          "amount": 5716,
+          "type": "debit",
+          "balance": 13061
+        },
+        {
+          "date": "2026-06-07",
+          "description": "IMPS INWARD - PART PAYMENT RECEIVED",
+          "amount": 15938,
+          "type": "credit",
+          "balance": 28999
+        },
+        {
+          "date": "2026-06-07",
+          "description": "EMI FULLERTON INDIA",
+          "amount": 7400,
+          "type": "debit",
+          "balance": 21599
+        },
+        {
+          "date": "2026-06-09",
+          "description": "UPI - SWIGGY",
+          "amount": 5323,
+          "type": "debit",
+          "balance": 16276
+        },
+        {
+          "date": "2026-06-13",
+          "description": "UPI - BIGBASKET",
+          "amount": 5323,
+          "type": "debit",
+          "balance": 10953
+        },
+        {
+          "date": "2026-06-17",
+          "description": "POS - RELIANCE FRESH",
+          "amount": 5323,
+          "type": "debit",
+          "balance": 5630
+        },
+        {
+          "date": "2026-06-21",
+          "description": "UPI - AMAZON PAY",
+          "amount": 5323,
+          "type": "debit",
+          "balance": 307
+        },
+        {
+          "date": "2026-07-03",
+          "description": "SALARY CREDIT - VERMA TRADERS (PROPRIETOR)",
+          "amount": 31529,
+          "type": "credit",
+          "balance": 31836
+        },
+        {
+          "date": "2026-07-07",
+          "description": "EMI FULLERTON INDIA",
+          "amount": 7400,
+          "type": "debit",
+          "balance": 24436
+        },
+        {
+          "date": "2026-07-09",
+          "description": "UPI - SWIGGY",
+          "amount": 5363,
+          "type": "debit",
+          "balance": 19073
+        },
+        {
+          "date": "2026-07-13",
+          "description": "UPI - BIGBASKET",
+          "amount": 5363,
+          "type": "debit",
+          "balance": 13710
+        },
+        {
+          "date": "2026-07-17",
+          "description": "POS - RELIANCE FRESH",
+          "amount": 5363,
+          "type": "debit",
+          "balance": 8347
+        },
+        {
+          "date": "2026-07-21",
+          "description": "UPI - AMAZON PAY",
+          "amount": 5363,
+          "type": "debit",
+          "balance": 2984
+        },
+        {
+          "date": "2026-08-03",
+          "description": "SALARY CREDIT - VERMA TRADERS (PROPRIETOR)",
+          "amount": 33128,
+          "type": "credit",
+          "balance": 36112
+        },
+        {
+          "date": "2026-08-07",
+          "description": "EMI FULLERTON INDIA",
+          "amount": 7400,
+          "type": "debit",
+          "balance": 28712
+        },
+        {
+          "date": "2026-08-09",
+          "description": "UPI - SWIGGY",
+          "amount": 5125,
+          "type": "debit",
+          "balance": 23587
+        },
+        {
+          "date": "2026-08-13",
+          "description": "UPI - BIGBASKET",
+          "amount": 5125,
+          "type": "debit",
+          "balance": 18462
+        },
+        {
+          "date": "2026-08-17",
+          "description": "POS - RELIANCE FRESH",
+          "amount": 5125,
+          "type": "debit",
+          "balance": 13337
+        },
+        {
+          "date": "2026-08-21",
+          "description": "UPI - AMAZON PAY",
+          "amount": 5125,
+          "type": "debit",
+          "balance": 8212
+        },
+        {
+          "date": "2026-09-03",
+          "description": "SALARY CREDIT - VERMA TRADERS (PROPRIETOR)",
+          "amount": 30852,
+          "type": "credit",
+          "balance": 39064
+        },
+        {
+          "date": "2026-09-07",
+          "description": "EMI FULLERTON INDIA",
+          "amount": 7400,
+          "type": "debit",
+          "balance": 31664
+        },
+        {
+          "date": "2026-09-09",
+          "description": "UPI - SWIGGY",
+          "amount": 4293,
+          "type": "debit",
+          "balance": 27371
+        },
+        {
+          "date": "2026-09-13",
+          "description": "UPI - BIGBASKET",
+          "amount": 4293,
+          "type": "debit",
+          "balance": 23078
+        },
+        {
+          "date": "2026-09-17",
+          "description": "POS - RELIANCE FRESH",
+          "amount": 4293,
+          "type": "debit",
+          "balance": 18785
+        },
+        {
+          "date": "2026-09-21",
+          "description": "UPI - AMAZON PAY",
+          "amount": 4293,
+          "type": "debit",
+          "balance": 14492
+        }
+      ],
+      "expected": {
+        "decision": "REVIEW",
+        "risk_score": 65,
+        "credit_limit": 140000,
+        "confidence": 0.91,
+        "policy_id": "pilot-acme",
+        "signals": {
+          "monthly_income": 31836,
+          "emi_ratio": 0.2324,
+          "emi_count": 1,
+          "emi_total": 44400,
+          "avg_residual": 24793,
+          "min_balance": 307,
+          "salary_count": 3,
+          "income_volatility": 0.3688,
+          "income_type": "salary",
+          "months_of_data": 6,
+          "months_active": 6,
+          "transaction_count": 36,
+          "credit_count": 6,
+          "debit_count": 30,
+          "total_credits": 139924,
+          "total_debits": 167432,
+          "savings_ratio": -0.1966
+        },
+        "rules_fired": [
+          {
+            "id": "R001",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R002",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R003",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R004",
+            "result": false,
+            "skipped": false
+          },
+          {
+            "id": "R005",
+            "result": false,
+            "skipped": false
+          },
+          {
+            "id": "R006",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R007",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R008",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R009",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R010",
+            "result": false,
+            "skipped": false
+          },
+          {
+            "id": "R011",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R012",
+            "result": false,
+            "skipped": false
+          },
+          {
+            "id": "R013",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R014",
+            "result": false,
+            "skipped": false
+          },
+          {
+            "id": "R015",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R016",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R017",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R018",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R019",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R020",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R021",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R022",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R023",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R024",
+            "result": true,
+            "skipped": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "apl-1027",
+      "name": "Sneha Iyer",
+      "months": 6,
+      "transactions": [
+        {
+          "date": "2026-04-03",
+          "description": "SALARY CREDIT - DELOITTE INDIA",
+          "amount": 92189,
+          "type": "credit",
+          "balance": 134189
+        },
+        {
+          "date": "2026-04-07",
+          "description": "EMI HDFC HOME LOAN",
+          "amount": 24500,
+          "type": "debit",
+          "balance": 109689
+        },
+        {
+          "date": "2026-04-09",
+          "description": "UPI - SWIGGY",
+          "amount": 6486,
+          "type": "debit",
+          "balance": 103203
+        },
+        {
+          "date": "2026-04-13",
+          "description": "UPI - BIGBASKET",
+          "amount": 6486,
+          "type": "debit",
+          "balance": 96717
+        },
+        {
+          "date": "2026-04-17",
+          "description": "POS - RELIANCE FRESH",
+          "amount": 6486,
+          "type": "debit",
+          "balance": 90231
+        },
+        {
+          "date": "2026-04-21",
+          "description": "UPI - AMAZON PAY",
+          "amount": 6486,
+          "type": "debit",
+          "balance": 83745
+        },
+        {
+          "date": "2026-05-03",
+          "description": "SALARY CREDIT - DELOITTE INDIA",
+          "amount": 91977,
+          "type": "credit",
+          "balance": 175722
+        },
+        {
+          "date": "2026-05-07",
+          "description": "EMI HDFC HOME LOAN",
+          "amount": 24500,
+          "type": "debit",
+          "balance": 151222
+        },
+        {
+          "date": "2026-05-09",
+          "description": "UPI - SWIGGY",
+          "amount": 7900,
+          "type": "debit",
+          "balance": 143322
+        },
+        {
+          "date": "2026-05-13",
+          "description": "UPI - BIGBASKET",
+          "amount": 7900,
+          "type": "debit",
+          "balance": 135422
+        },
+        {
+          "date": "2026-05-17",
+          "description": "POS - RELIANCE FRESH",
+          "amount": 7900,
+          "type": "debit",
+          "balance": 127522
+        },
+        {
+          "date": "2026-05-21",
+          "description": "UPI - AMAZON PAY",
+          "amount": 7900,
+          "type": "debit",
+          "balance": 119622
+        },
+        {
+          "date": "2026-06-03",
+          "description": "SALARY CREDIT - DELOITTE INDIA",
+          "amount": 91790,
+          "type": "credit",
+          "balance": 211412
+        },
+        {
+          "date": "2026-06-07",
+          "description": "EMI HDFC HOME LOAN",
+          "amount": 24500,
+          "type": "debit",
+          "balance": 186912
+        },
+        {
+          "date": "2026-06-09",
+          "description": "UPI - SWIGGY",
+          "amount": 8158,
+          "type": "debit",
+          "balance": 178754
+        },
+        {
+          "date": "2026-06-13",
+          "description": "UPI - BIGBASKET",
+          "amount": 8158,
+          "type": "debit",
+          "balance": 170596
+        },
+        {
+          "date": "2026-06-17",
+          "description": "POS - RELIANCE FRESH",
+          "amount": 8158,
+          "type": "debit",
+          "balance": 162438
+        },
+        {
+          "date": "2026-06-21",
+          "description": "UPI - AMAZON PAY",
+          "amount": 8158,
+          "type": "debit",
+          "balance": 154280
+        },
+        {
+          "date": "2026-07-03",
+          "description": "SALARY CREDIT - DELOITTE INDIA",
+          "amount": 92201,
+          "type": "credit",
+          "balance": 246481
+        },
+        {
+          "date": "2026-07-07",
+          "description": "EMI HDFC HOME LOAN",
+          "amount": 24500,
+          "type": "debit",
+          "balance": 221981
+        },
+        {
+          "date": "2026-07-09",
+          "description": "UPI - SWIGGY",
+          "amount": 5807,
+          "type": "debit",
+          "balance": 216174
+        },
+        {
+          "date": "2026-07-13",
+          "description": "UPI - BIGBASKET",
+          "amount": 5807,
+          "type": "debit",
+          "balance": 210367
+        },
+        {
+          "date": "2026-07-17",
+          "description": "POS - RELIANCE FRESH",
+          "amount": 5807,
+          "type": "debit",
+          "balance": 204560
+        },
+        {
+          "date": "2026-07-21",
+          "description": "UPI - AMAZON PAY",
+          "amount": 5807,
+          "type": "debit",
+          "balance": 198753
+        },
+        {
+          "date": "2026-08-03",
+          "description": "SALARY CREDIT - DELOITTE INDIA",
+          "amount": 91973,
+          "type": "credit",
+          "balance": 290726
+        },
+        {
+          "date": "2026-08-07",
+          "description": "EMI HDFC HOME LOAN",
+          "amount": 24500,
+          "type": "debit",
+          "balance": 266226
+        },
+        {
+          "date": "2026-08-09",
+          "description": "UPI - SWIGGY",
+          "amount": 7344,
+          "type": "debit",
+          "balance": 258882
+        },
+        {
+          "date": "2026-08-13",
+          "description": "UPI - BIGBASKET",
+          "amount": 7344,
+          "type": "debit",
+          "balance": 251538
+        },
+        {
+          "date": "2026-08-17",
+          "description": "POS - RELIANCE FRESH",
+          "amount": 7344,
+          "type": "debit",
+          "balance": 244194
+        },
+        {
+          "date": "2026-08-21",
+          "description": "UPI - AMAZON PAY",
+          "amount": 7344,
+          "type": "debit",
+          "balance": 236850
+        },
+        {
+          "date": "2026-09-03",
+          "description": "SALARY CREDIT - DELOITTE INDIA",
+          "amount": 91911,
+          "type": "credit",
+          "balance": 328761
+        },
+        {
+          "date": "2026-09-07",
+          "description": "EMI HDFC HOME LOAN",
+          "amount": 24500,
+          "type": "debit",
+          "balance": 304261
+        },
+        {
+          "date": "2026-09-09",
+          "description": "UPI - SWIGGY",
+          "amount": 7945,
+          "type": "debit",
+          "balance": 296316
+        },
+        {
+          "date": "2026-09-13",
+          "description": "UPI - BIGBASKET",
+          "amount": 7945,
+          "type": "debit",
+          "balance": 288371
+        },
+        {
+          "date": "2026-09-17",
+          "description": "POS - RELIANCE FRESH",
+          "amount": 7945,
+          "type": "debit",
+          "balance": 280426
+        },
+        {
+          "date": "2026-09-21",
+          "description": "UPI - AMAZON PAY",
+          "amount": 7945,
+          "type": "debit",
+          "balance": 272481
+        }
+      ],
+      "expected": {
+        "decision": "APPROVE",
+        "risk_score": 95,
+        "credit_limit": 610000,
+        "confidence": 0.91,
+        "policy_id": "pilot-acme",
+        "signals": {
+          "monthly_income": 92007,
+          "emi_ratio": 0.2663,
+          "emi_count": 1,
+          "emi_total": 147000,
+          "avg_residual": 198676,
+          "min_balance": 83745,
+          "salary_count": 6,
+          "income_volatility": 0.0016,
+          "income_type": "salary",
+          "months_of_data": 6,
+          "months_active": 6,
+          "transaction_count": 36,
+          "credit_count": 6,
+          "debit_count": 30,
+          "total_credits": 552041,
+          "total_debits": 321560,
+          "savings_ratio": 0.4175
+        },
+        "rules_fired": [
+          {
+            "id": "R001",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R002",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R003",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R004",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R005",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R006",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R007",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R008",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R009",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R010",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R011",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R012",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R013",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R014",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R015",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R016",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R017",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R018",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R019",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R020",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R021",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R022",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R023",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R024",
+            "result": true,
+            "skipped": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "apl-1028",
+      "name": "Imran Qureshi",
+      "months": 4,
+      "transactions": [
+        {
+          "date": "2026-06-07",
+          "description": "IMPS INWARD - PART PAYMENT RECEIVED",
+          "amount": 13583,
+          "type": "credit",
+          "balance": 55583
+        },
+        {
+          "date": "2026-06-07",
+          "description": "EMI BAJAJ TWO WHEELER",
+          "amount": 3800,
+          "type": "debit",
+          "balance": 51783
+        },
+        {
+          "date": "2026-06-09",
+          "description": "UPI - SWIGGY",
+          "amount": 4920,
+          "type": "debit",
+          "balance": 46863
+        },
+        {
+          "date": "2026-06-13",
+          "description": "UPI - BIGBASKET",
+          "amount": 4920,
+          "type": "debit",
+          "balance": 41943
+        },
+        {
+          "date": "2026-06-17",
+          "description": "POS - RELIANCE FRESH",
+          "amount": 4920,
+          "type": "debit",
+          "balance": 37023
+        },
+        {
+          "date": "2026-06-21",
+          "description": "UPI - AMAZON PAY",
+          "amount": 4920,
+          "type": "debit",
+          "balance": 32103
+        },
+        {
+          "date": "2026-07-07",
+          "description": "IMPS INWARD - PART PAYMENT RECEIVED",
+          "amount": 18483,
+          "type": "credit",
+          "balance": 50586
+        },
+        {
+          "date": "2026-07-07",
+          "description": "EMI BAJAJ TWO WHEELER",
+          "amount": 3800,
+          "type": "debit",
+          "balance": 46786
+        },
+        {
+          "date": "2026-07-09",
+          "description": "UPI - SWIGGY",
+          "amount": 4987,
+          "type": "debit",
+          "balance": 41799
+        },
+        {
+          "date": "2026-07-13",
+          "description": "UPI - BIGBASKET",
+          "amount": 4987,
+          "type": "debit",
+          "balance": 36812
+        },
+        {
+          "date": "2026-07-17",
+          "description": "POS - RELIANCE FRESH",
+          "amount": 4987,
+          "type": "debit",
+          "balance": 31825
+        },
+        {
+          "date": "2026-07-21",
+          "description": "UPI - AMAZON PAY",
+          "amount": 4987,
+          "type": "debit",
+          "balance": 26838
+        },
+        {
+          "date": "2026-08-07",
+          "description": "IMPS INWARD - PART PAYMENT RECEIVED",
+          "amount": 9306,
+          "type": "credit",
+          "balance": 36144
+        },
+        {
+          "date": "2026-08-07",
+          "description": "EMI BAJAJ TWO WHEELER",
+          "amount": 3800,
+          "type": "debit",
+          "balance": 32344
+        },
+        {
+          "date": "2026-08-09",
+          "description": "UPI - SWIGGY",
+          "amount": 4648,
+          "type": "debit",
+          "balance": 27696
+        },
+        {
+          "date": "2026-08-13",
+          "description": "UPI - BIGBASKET",
+          "amount": 4648,
+          "type": "debit",
+          "balance": 23048
+        },
+        {
+          "date": "2026-08-17",
+          "description": "POS - RELIANCE FRESH",
+          "amount": 4648,
+          "type": "debit",
+          "balance": 18400
+        },
+        {
+          "date": "2026-08-21",
+          "description": "UPI - AMAZON PAY",
+          "amount": 4648,
+          "type": "debit",
+          "balance": 13752
+        },
+        {
+          "date": "2026-08-21",
+          "description": "RETURN - INSUFFICIENT FUNDS (BOUNCE CHARGES)",
+          "amount": 1500,
+          "type": "debit",
+          "balance": 12252
+        },
+        {
+          "date": "2026-08-22",
+          "description": "OD CHARGES - OVERDRAWN ACCOUNT",
+          "amount": 350,
+          "type": "debit",
+          "balance": -1500
+        },
+        {
+          "date": "2026-09-07",
+          "description": "IMPS INWARD - PART PAYMENT RECEIVED",
+          "amount": 12468,
+          "type": "credit",
+          "balance": 24468
+        },
+        {
+          "date": "2026-09-07",
+          "description": "EMI BAJAJ TWO WHEELER",
+          "amount": 3800,
+          "type": "debit",
+          "balance": 20668
+        },
+        {
+          "date": "2026-09-09",
+          "description": "UPI - SWIGGY",
+          "amount": 6478,
+          "type": "debit",
+          "balance": 14190
+        },
+        {
+          "date": "2026-09-13",
+          "description": "UPI - BIGBASKET",
+          "amount": 6478,
+          "type": "debit",
+          "balance": 7712
+        },
+        {
+          "date": "2026-09-17",
+          "description": "POS - RELIANCE FRESH",
+          "amount": 6478,
+          "type": "debit",
+          "balance": 1234
+        },
+        {
+          "date": "2026-09-21",
+          "description": "UPI - AMAZON PAY",
+          "amount": 6478,
+          "type": "debit",
+          "balance": -5244
+        }
+      ],
+      "expected": {
+        "decision": "REJECT",
+        "risk_score": 51,
+        "credit_limit": 0,
+        "confidence": 0.79,
+        "policy_id": "pilot-acme",
+        "signals": {
+          "monthly_income": 13460,
+          "emi_ratio": 0.2823,
+          "emi_count": 1,
+          "emi_total": 15200,
+          "avg_residual": 27889,
+          "min_balance": -5244,
+          "salary_count": 0,
+          "income_volatility": 0.245,
+          "income_type": "variable",
+          "months_of_data": 4,
+          "months_active": 4,
+          "transaction_count": 26,
+          "credit_count": 4,
+          "debit_count": 22,
+          "total_credits": 53840,
+          "total_debits": 101182,
+          "savings_ratio": -0.8793
+        },
+        "rules_fired": [
+          {
+            "id": "R001",
+            "result": false,
+            "skipped": false
+          },
+          {
+            "id": "R002",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R003",
+            "result": false,
+            "skipped": false
+          },
+          {
+            "id": "R004",
+            "result": false,
+            "skipped": false
+          },
+          {
+            "id": "R005",
+            "result": false,
+            "skipped": false
+          },
+          {
+            "id": "R006",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R007",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R008",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R009",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R010",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R011",
+            "result": false,
+            "skipped": false
+          },
+          {
+            "id": "R012",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R013",
+            "result": false,
+            "skipped": false
+          },
+          {
+            "id": "R014",
+            "result": false,
+            "skipped": false
+          },
+          {
+            "id": "R015",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R016",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R017",
+            "result": false,
+            "skipped": false
+          },
+          {
+            "id": "R018",
+            "result": false,
+            "skipped": false
+          },
+          {
+            "id": "R019",
+            "result": false,
+            "skipped": false
+          },
+          {
+            "id": "R020",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R021",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R022",
+            "result": false,
+            "skipped": false
+          },
+          {
+            "id": "R023",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R024",
+            "result": false,
+            "skipped": false
+          }
+        ]
+      }
+    },
+    {
+      "id": "apl-1029",
+      "name": "Kavya Reddy",
+      "months": 6,
+      "transactions": [
+        {
+          "date": "2026-04-03",
+          "description": "SALARY CREDIT - REDDY DIAGNOSTICS",
+          "amount": 55951,
+          "type": "credit",
+          "balance": 97951
+        },
+        {
+          "date": "2026-04-07",
+          "description": "EMI KOTAK CAR LOAN",
+          "amount": 12800,
+          "type": "debit",
+          "balance": 85151
+        },
+        {
+          "date": "2026-04-09",
+          "description": "UPI - SWIGGY",
+          "amount": 9182,
+          "type": "debit",
+          "balance": 75969
+        },
+        {
+          "date": "2026-04-13",
+          "description": "UPI - BIGBASKET",
+          "amount": 9182,
+          "type": "debit",
+          "balance": 66787
+        },
+        {
+          "date": "2026-04-17",
+          "description": "POS - RELIANCE FRESH",
+          "amount": 9182,
+          "type": "debit",
+          "balance": 57605
+        },
+        {
+          "date": "2026-04-21",
+          "description": "UPI - AMAZON PAY",
+          "amount": 9182,
+          "type": "debit",
+          "balance": 48423
+        },
+        {
+          "date": "2026-05-03",
+          "description": "SALARY CREDIT - REDDY DIAGNOSTICS",
+          "amount": 54342,
+          "type": "credit",
+          "balance": 102765
+        },
+        {
+          "date": "2026-05-07",
+          "description": "EMI KOTAK CAR LOAN",
+          "amount": 12800,
+          "type": "debit",
+          "balance": 89965
+        },
+        {
+          "date": "2026-05-09",
+          "description": "UPI - SWIGGY",
+          "amount": 7879,
+          "type": "debit",
+          "balance": 82086
+        },
+        {
+          "date": "2026-05-13",
+          "description": "UPI - BIGBASKET",
+          "amount": 7879,
+          "type": "debit",
+          "balance": 74207
+        },
+        {
+          "date": "2026-05-17",
+          "description": "POS - RELIANCE FRESH",
+          "amount": 7879,
+          "type": "debit",
+          "balance": 66328
+        },
+        {
+          "date": "2026-05-21",
+          "description": "UPI - AMAZON PAY",
+          "amount": 7879,
+          "type": "debit",
+          "balance": 58449
+        },
+        {
+          "date": "2026-06-03",
+          "description": "SALARY CREDIT - REDDY DIAGNOSTICS",
+          "amount": 54501,
+          "type": "credit",
+          "balance": 112950
+        },
+        {
+          "date": "2026-06-07",
+          "description": "EMI KOTAK CAR LOAN",
+          "amount": 12800,
+          "type": "debit",
+          "balance": 100150
+        },
+        {
+          "date": "2026-06-09",
+          "description": "UPI - SWIGGY",
+          "amount": 7183,
+          "type": "debit",
+          "balance": 92967
+        },
+        {
+          "date": "2026-06-13",
+          "description": "UPI - BIGBASKET",
+          "amount": 7183,
+          "type": "debit",
+          "balance": 85784
+        },
+        {
+          "date": "2026-06-17",
+          "description": "POS - RELIANCE FRESH",
+          "amount": 7183,
+          "type": "debit",
+          "balance": 78601
+        },
+        {
+          "date": "2026-06-21",
+          "description": "UPI - AMAZON PAY",
+          "amount": 7183,
+          "type": "debit",
+          "balance": 71418
+        },
+        {
+          "date": "2026-07-03",
+          "description": "SALARY CREDIT - REDDY DIAGNOSTICS",
+          "amount": 53759,
+          "type": "credit",
+          "balance": 125177
+        },
+        {
+          "date": "2026-07-07",
+          "description": "EMI KOTAK CAR LOAN",
+          "amount": 12800,
+          "type": "debit",
+          "balance": 112377
+        },
+        {
+          "date": "2026-07-09",
+          "description": "UPI - SWIGGY",
+          "amount": 8057,
+          "type": "debit",
+          "balance": 104320
+        },
+        {
+          "date": "2026-07-13",
+          "description": "UPI - BIGBASKET",
+          "amount": 8057,
+          "type": "debit",
+          "balance": 96263
+        },
+        {
+          "date": "2026-07-17",
+          "description": "POS - RELIANCE FRESH",
+          "amount": 8057,
+          "type": "debit",
+          "balance": 88206
+        },
+        {
+          "date": "2026-07-21",
+          "description": "UPI - AMAZON PAY",
+          "amount": 8057,
+          "type": "debit",
+          "balance": 80149
+        },
+        {
+          "date": "2026-08-03",
+          "description": "SALARY CREDIT - REDDY DIAGNOSTICS",
+          "amount": 54853,
+          "type": "credit",
+          "balance": 135002
+        },
+        {
+          "date": "2026-08-07",
+          "description": "EMI KOTAK CAR LOAN",
+          "amount": 12800,
+          "type": "debit",
+          "balance": 122202
+        },
+        {
+          "date": "2026-08-09",
+          "description": "UPI - SWIGGY",
+          "amount": 6835,
+          "type": "debit",
+          "balance": 115367
+        },
+        {
+          "date": "2026-08-13",
+          "description": "UPI - BIGBASKET",
+          "amount": 6835,
+          "type": "debit",
+          "balance": 108532
+        },
+        {
+          "date": "2026-08-17",
+          "description": "POS - RELIANCE FRESH",
+          "amount": 6835,
+          "type": "debit",
+          "balance": 101697
+        },
+        {
+          "date": "2026-08-21",
+          "description": "UPI - AMAZON PAY",
+          "amount": 6835,
+          "type": "debit",
+          "balance": 94862
+        },
+        {
+          "date": "2026-09-03",
+          "description": "SALARY CREDIT - REDDY DIAGNOSTICS",
+          "amount": 51873,
+          "type": "credit",
+          "balance": 146735
+        },
+        {
+          "date": "2026-09-07",
+          "description": "EMI KOTAK CAR LOAN",
+          "amount": 12800,
+          "type": "debit",
+          "balance": 133935
+        },
+        {
+          "date": "2026-09-09",
+          "description": "UPI - SWIGGY",
+          "amount": 7642,
+          "type": "debit",
+          "balance": 126293
+        },
+        {
+          "date": "2026-09-13",
+          "description": "UPI - BIGBASKET",
+          "amount": 7642,
+          "type": "debit",
+          "balance": 118651
+        },
+        {
+          "date": "2026-09-17",
+          "description": "POS - RELIANCE FRESH",
+          "amount": 7642,
+          "type": "debit",
+          "balance": 111009
+        },
+        {
+          "date": "2026-09-21",
+          "description": "UPI - AMAZON PAY",
+          "amount": 7642,
+          "type": "debit",
+          "balance": 103367
+        }
+      ],
+      "expected": {
+        "decision": "APPROVE",
+        "risk_score": 89,
+        "credit_limit": 340000,
+        "confidence": 0.91,
+        "policy_id": "pilot-acme",
+        "signals": {
+          "monthly_income": 54213,
+          "emi_ratio": 0.2361,
+          "emi_count": 1,
+          "emi_total": 76800,
+          "avg_residual": 96436,
+          "min_balance": 48423,
+          "salary_count": 6,
+          "income_volatility": 0.0229,
+          "income_type": "salary",
+          "months_of_data": 6,
+          "months_active": 6,
+          "transaction_count": 36,
+          "credit_count": 6,
+          "debit_count": 30,
+          "total_credits": 325279,
+          "total_debits": 263912,
+          "savings_ratio": 0.1887
+        },
+        "rules_fired": [
+          {
+            "id": "R001",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R002",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R003",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R004",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R005",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R006",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R007",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R008",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R009",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R010",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R011",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R012",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R013",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R014",
+            "result": false,
+            "skipped": false
+          },
+          {
+            "id": "R015",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R016",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R017",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R018",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R019",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R020",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R021",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R022",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R023",
+            "result": true,
+            "skipped": false
+          },
+          {
+            "id": "R024",
+            "result": true,
+            "skipped": false
+          }
+        ]
+      }
+    }
+  ]
+}
