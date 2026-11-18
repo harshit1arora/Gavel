@@ -114,7 +114,7 @@ class MLPredictionEngine {
       try {
         const db = admin.firestore();
         const stmtDoc = await db.collection('bankStatementAnalysis').doc(request.bankStatementId).get();
-        if (stmtDoc.exists) {
+        if (stmtDoc.exists && stmtDoc.get('userId') === request.userId) {
           bankStatementData = stmtDoc.data();
         }
       } catch (e) {

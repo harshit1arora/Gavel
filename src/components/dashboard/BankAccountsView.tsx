@@ -1,3 +1,4 @@
+import { API_BASE } from '@/lib/api-base';
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Plus, Building2, RefreshCw, Trash2, Link2 } from "lucide-react";
@@ -13,7 +14,7 @@ export default function BankAccountsView({ orgId }: { orgId: string | null }) {
     try {
       const auth = getAuth();
       const token = await auth.currentUser?.getIdToken();
-      const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8080'}/v1/bank-accounts`, {
+      const res = await fetch(`${API_BASE}/v1/bank-accounts`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (res.ok) {
@@ -36,7 +37,7 @@ export default function BankAccountsView({ orgId }: { orgId: string | null }) {
     try {
       const auth = getAuth();
       const token = await auth.currentUser?.getIdToken();
-      const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:8080'}/v1/bank-accounts`, {
+      const res = await fetch(`${API_BASE}/v1/bank-accounts`, {
         method: "POST",
         headers: { 
           Authorization: `Bearer ${token}`,

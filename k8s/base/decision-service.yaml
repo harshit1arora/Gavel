@@ -7,17 +7,6 @@ data:
   ALLOWED_ORIGINS: "https://trygavel.com,https://www.trygavel.com"
   GEMINI_MODEL: "gemini-1.5-flash"
 ---
-apiVersion: v1
-kind: Secret
-metadata:
-  name: gavel-decision-secrets
-  namespace: default
-type: Opaque
-stringData:
-  GAVEL_API_KEY: "${GAVEL_API_KEY}"
-  GEMINI_API_KEY: "${GEMINI_API_KEY}"
-  REDIS_URL: "${REDIS_URL}"
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:

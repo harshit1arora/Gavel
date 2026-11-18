@@ -1,11 +1,5 @@
 import axios from 'axios';
-import {
-  db,
-  doc,
-  getDoc,
-  updateDoc,
-  Timestamp,
-} from '../config/firebase';
+import { db, Timestamp } from '../config/firebase';
 
 export interface SlackConfig {
   botToken: string;
@@ -231,14 +225,14 @@ export async function notifySlackCollectionsAlert(
  */
 export async function getSlackConfig(orgId: string): Promise<SlackConfig | null> {
   try {
-    const orgRef = doc(db, 'organizations', orgId);
-    const orgSnap = await getDoc(orgRef);
+    const orgRef = db.collection('organizations').doc(orgId);
+    const orgSnap = await orgRef.get();
 
-    if (!orgSnap.exists()) {
+    if (!orgSnap.exists) {
       return null;
     }
 
-    const slackConfig = orgSnap.data().slackConfig;
+    const slackConfig = orgSnap.data()!.slackConfig;
     return slackConfig || null;
   } catch (error) {
     console.error('Error getting Slack config:', error);
@@ -254,8 +248,8 @@ export async function updateSlackConfig(
   config: Partial<SlackConfig>
 ): Promise<void> {
   try {
-    const orgRef = doc(db, 'organizations', orgId);
-    await updateDoc(orgRef, {
+    const orgRef = db.collection('organizations').doc(orgId);
+    await orgRef.update({
       slackConfig: config,
       updatedAt: Timestamp.now(),
     });

@@ -1,15 +1,6 @@
 import nodemailer from 'nodemailer';
 import { getUsageROI, calculateSavings } from './roi';
-import {
-  db,
-  getDocs,
-  query,
-  where,
-  collection,
-  Timestamp,
-  updateDoc,
-  doc,
-} from '../config/firebase';
+import { db, Timestamp } from '../config/firebase';
 
 // Configure email transporter
 const transporter = nodemailer.createTransport({
@@ -205,8 +196,8 @@ export async function updateEmailSubscription(
   subscription: Partial<EmailSubscription>
 ): Promise<void> {
   try {
-    const orgRef = doc(db, 'organizations', orgId);
-    await updateDoc(orgRef, {
+    const orgRef = db.collection('organizations').doc(orgId);
+    await orgRef.update({
       emailSubscription: subscription,
       updatedAt: Timestamp.now(),
     });

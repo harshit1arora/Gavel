@@ -1,3 +1,4 @@
+import { apiWithAuth } from '@/lib/api-client';
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Alert, AlertDescription } from '@/components/ui/alert';
@@ -28,8 +29,8 @@ const PredictionResult: React.FC<PredictionResultProps> = ({ prediction, loanAmo
   useEffect(() => {
     if (prediction.applicationId && !prediction.applicationId.startsWith('form-')) {
       setLoadingExplanations(true);
-      const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
-      fetch(`${API_BASE}/api/loan/${prediction.applicationId}/explanation`)
+
+      apiWithAuth(`/api/loan/${prediction.applicationId}/explanation`)
         .then(res => {
           if (!res.ok) throw new Error('Failed to fetch explanations');
           return res.json();

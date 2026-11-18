@@ -9,6 +9,7 @@ export interface AuthenticatedRequest extends Request {
   uid?: string;
   userId?: string;
   userName?: string;
+  billingAdmin?: boolean;
 }
 
 // Re-exported from the dependency-free security util so existing callers
@@ -135,6 +136,7 @@ export const authenticateFirebaseToken = async (req: AuthenticatedRequest, res: 
 
   try {
     const decodedToken = await admin.auth().verifyIdToken(idToken);
+    req.billingAdmin = decodedToken.billingAdmin === true;
     req.uid = decodedToken.uid;
     req.orgId = decodedToken.uid; // In Gavel, orgId === user's Firebase UID
     req.userId = decodedToken.uid;

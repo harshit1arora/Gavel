@@ -6,8 +6,8 @@ the **running** services, not the source in isolation.
 ```bash
 npm run build # the browser suite drives dist/, so build first
 
-npm run test:e2e # 53 browser checks (headless Chromium)
-npm run test:e2e:services # 24 service checks (boots FastAPI + Express)
+npm run test:e2e # 54 browser checks (headless Chromium)
+npm run test:e2e:services # 27 service checks (boots FastAPI + Express)
 ```
 
 ## Browser suite, `browser-suite.cjs`

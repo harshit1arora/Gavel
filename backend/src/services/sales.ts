@@ -1,18 +1,4 @@
-import {
-  db,
-  getDoc,
-  getDocs,
-  setDoc,
-  updateDoc,
-  deleteDoc,
-  query,
-  where,
-  orderBy,
-  collection,
-  Timestamp,
-  DocumentReference,
-  doc,
-} from '../config/firebase';
+import { db, Timestamp } from '../config/firebase';
 
 export interface SalesDeal {
   id?: string;
@@ -52,7 +38,7 @@ export async function createSalesDeal(
 ): Promise<string> {
   try {
     const dealId = `deal_${Date.now()}`;
-    const dealsRef = collection(db, `organizations/${orgId}/sales_deals`);
+    const dealsRef = db.collection(`organizations/${orgId}/sales_deals`);
     
     const dealDoc = {
       ...dealData,
@@ -65,7 +51,7 @@ export async function createSalesDeal(
           : Timestamp.fromDate(new Date(dealData.expectedCloseDate)),
     };
 
-    await setDoc(doc(dealsRef, dealId), dealDoc);
+    await dealsRef.doc(dealId).set(dealDoc);
     return dealId;
   } catch (error) {
     console.error('Error creating sales deal:', error);
@@ -83,10 +69,8 @@ export async function getSalesPipeline(orgId: string): Promise<{
   metrics: SalesPipelineMetrics;
 }> {
   try {
-    const dealsRef = collection(db, `organizations/${orgId}/sales_deals`);
-    const dealsSnapshot = await getDocs(
-      query(dealsRef, orderBy('expectedCloseDate', 'asc'))
-    );
+    const dealsRef = db.collection(`organizations/${orgId}/sales_deals`);
+    const dealsSnapshot = await dealsRef.orderBy('expectedCloseDate', 'asc').get();
 
     const deals: SalesDeal[] = [];
     dealsSnapshot.forEach((docSnap: any) => {
@@ -151,14 +135,14 @@ export async function getSalesPipeline(orgId: string): Promise<{
  */
 export async function getSalesDeal(orgId: string, dealId: string): Promise<SalesDeal | null> {
   try {
-    const dealRef = doc(db, `organizations/${orgId}/sales_deals/${dealId}`);
-    const dealSnap = await getDoc(dealRef);
+    const dealRef = db.doc(`organizations/${orgId}/sales_deals/${dealId}`);
+    const dealSnap = await dealRef.get();
 
-    if (!dealSnap.exists()) {
+    if (!dealSnap.exists) {
       return null;
     }
 
-    const data = dealSnap.data();
+    const data = dealSnap.data()!;
     return {
       id: dealSnap.id,
       ...data,
@@ -181,7 +165,7 @@ export async function updateSalesDeal(
   updates: Partial<SalesDeal>
 ): Promise<void> {
   try {
-    const dealRef = doc(db, `organizations/${orgId}/sales_deals/${dealId}`);
+    const dealRef = db.doc(`organizations/${orgId}/sales_deals/${dealId}`);
     
     const updateData = {
       ...updates,
@@ -194,10 +178,10 @@ export async function updateSalesDeal(
       const dateVal = updates.expectedCloseDate instanceof Date 
         ? updates.expectedCloseDate 
         : new Date(updates.expectedCloseDate);
-      updateData.expectedCloseDate = Timestamp.fromDate(dateVal);
+      updateData.expectedCloseDate = dateVal;
     }
 
-    await updateDoc(dealRef, updateData);
+    await dealRef.update(updateData);
   } catch (error) {
     console.error('Error updating sales deal:', error);
     throw error;
@@ -209,8 +193,8 @@ export async function updateSalesDeal(
  */
 export async function deleteSalesDeal(orgId: string, dealId: string): Promise<void> {
   try {
-    const dealRef = doc(db, `organizations/${orgId}/sales_deals/${dealId}`);
-    await deleteDoc(dealRef);
+    const dealRef = db.doc(`organizations/${orgId}/sales_deals/${dealId}`);
+    await dealRef.delete();
   } catch (error) {
     console.error('Error deleting sales deal:', error);
     throw error;

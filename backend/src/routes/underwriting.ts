@@ -135,6 +135,7 @@ router.post(
           period: validation.input.bank_statement.period || null,
           loan_request: validation.input.loan_request || null,
         },
+        policySnapshot: policy,
         rbiComplianceFields: {
           audit_id: result.audit_id,
           decision: result.decision,

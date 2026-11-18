@@ -1,3 +1,4 @@
+import { API_BASE } from '@/lib/api-base';
 import { auth } from './firebase';
 
 /**
@@ -7,7 +8,6 @@ import { auth } from './firebase';
  * - Handles error responses consistently
  */
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
 
 /**
  * Get the current user's Firebase ID Token for backend authentication.

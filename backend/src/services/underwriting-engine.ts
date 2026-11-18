@@ -234,9 +234,12 @@ export function analyze(
   policy: PolicyConfig,
   opts: EngineOptions = {},
 ): { result: AnalysisResult; signals: DerivedSignals } {
+  return analyzeSignals(deriveSignals(input), policy, opts);
+}
+
+export function analyzeSignals(signals: DerivedSignals, policy: PolicyConfig, opts: EngineOptions = {}): { result: AnalysisResult; signals: DerivedSignals } {
   const startedAt = opts.startedAt ?? Date.now();
   const now = opts.now ?? Date.now();
-  const signals = deriveSignals(input);
   const audit_id = newAuditId(now);
 
   // ── Gate 1: data sufficiency (E001), a REJECT, not an HTTP error ──────

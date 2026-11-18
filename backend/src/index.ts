@@ -1,3 +1,4 @@
+import operationsRouter from './routes/operations';
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
@@ -5,13 +6,12 @@ import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
 import swaggerUi from 'swagger-ui-express';
 import { swaggerSpec } from './swagger';
-import { authenticateApiToken, authenticateFirebaseToken, authenticateAnyToken } from './middleware/auth';
+import { AuthenticatedRequest, authenticateApiToken, authenticateFirebaseToken, authenticateAnyToken } from './middleware/auth';
 import { enforceQuota } from './middleware/quota';
 import evaluateRouter from './routes/evaluate';
 import apikeysRouter from './routes/apikeys';
 import policiesRouter from './routes/policies';
 import webhooksRouter from './routes/webhooks';
-import { processWebhookQueue } from './services/webhooks';
 import sentinelRouter from './routes/sentinel';
 import analyticsRouter from './routes/analytics';
 import systemRouter from './routes/system';
@@ -52,8 +52,6 @@ import originationRouter from './routes/origination';
 import underwritingRouter from './routes/underwriting';
 import demoRequestRouter from './routes/demo-request';
 import { connectRedis } from './services/redis';
-import { runDailyCollectionCheck } from './services/collection-automation';
-import { runPortfolioClassification } from './services/compliance-engine';
 import { db, admin } from './config/firebase';
 import path from 'path';
 
@@ -94,6 +92,8 @@ app.use(cors({
   credentials: true,
 }));
 
+const webhookPaths = ['/v1/webhooks/razorpay', '/v1/payments/webhook'];
+app.use(webhookPaths, express.raw({ type: 'application/json', limit: '10mb' }));
 app.use(express.json({ limit: '10mb' }));
 
 // Disable X-Powered-By header
@@ -102,7 +102,8 @@ app.disable('x-powered-by');
 // ── Request Validation Middleware ───────────────────────────────────────
 app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
   const contentLength = req.headers['content-length'];
-  if (contentLength && parseInt(contentLength) > 10 * 1024 * 1024) {
+  const limitMb = req.path === '/v1/parse/vision' ? 21 : 10;
+  if (contentLength && parseInt(contentLength) > limitMb * 1024 * 1024) {
     return res.status(413).json({ error: 'Request body too large' });
   }
   next();
@@ -126,7 +127,43 @@ const authLimiter = rateLimit({
 app.use('/v1', apiLimiter);
 app.use('/v1/apikeys', authLimiter);
 
+// Keep the engine credential server-side. Private engines require a signed-in client.
+app.post('/v1/parse/vision',
+  (req, res, next) => process.env.GAVEL_API_KEY ? authenticateAnyToken(req, res, next) : next(),
+  express.raw({ type: 'multipart/form-data', limit: '21mb' }),
+  async (req, res) => {
+    if (!Buffer.isBuffer(req.body)) return res.status(415).json({ detail: 'Expected a multipart file' });
+    try {
+      const base = process.env.DECISION_SERVICE_URL || 'http://127.0.0.1:8090';
+      const headers: Record<string, string> = { 'Content-Type': req.get('Content-Type')! };
+      if (process.env.GAVEL_API_KEY) headers.Authorization = `Bearer ${process.env.GAVEL_API_KEY}`;
+      const result = await fetch(new URL('/v1/parse/vision', base), {
+        method: 'POST', headers, body: new Uint8Array(req.body), signal: AbortSignal.timeout(115000),
+      });
+      res.status(result.status).type('application/json').send(await result.text());
+    } catch {
+      res.status(502).json({ detail: 'Decision service unavailable' });
+    }
+  }
+);
+
 // ── Health Check (public) ──────────────────────────────────────────
+app.get('/gavel-config.js', (_req, res) => {
+  const firebase = {
+    apiKey: process.env.VITE_FIREBASE_API_KEY,
+    authDomain: process.env.VITE_FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.VITE_FIREBASE_PROJECT_ID,
+    storageBucket: process.env.VITE_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.VITE_FIREBASE_APP_ID,
+  };
+  res.set('Cache-Control','no-store').type('application/javascript')
+    .send('window.gavelFirebase = ' + JSON.stringify(firebase) + ';');
+});
+
+app.get('/v1/public/release', (_req,res) => {
+  res.set('Cache-Control','no-store').json({ revision: process.env.GAVEL_REVISION || 'development' });
+});
 app.get('/health', (req, res) => {
   res.status(200).json({ 
     status: 'healthy', 
@@ -155,6 +192,7 @@ app.use('/v1/apikeys', apikeysRouter);
 
 // ── Protected API Routes (Secured by API or Firebase Tokens) ────────
 app.use('/v1/evaluate', authenticateAnyToken, evaluateRouter);
+app.use('/v1/operations', operationsRouter);
 app.use('/v1/underwriting', authenticateAnyToken, underwritingRouter);
 app.use('/v1/policies', authenticateAnyToken, policiesRouter);
 app.use('/v1/billing', authenticateAnyToken, billingRouter);
@@ -165,7 +203,7 @@ app.use('/v1/disbursements', authenticateAnyToken, disbursementsRouter);
 app.use('/v1/bank-accounts', authenticateAnyToken, bankAccountsRouter);
 app.use('/v1/communications', authenticateAnyToken, communicationsRouter);
 // Razorpay webhook - needs raw body for signature verification
-app.post('/v1/webhooks/razorpay', express.raw({ type: 'application/json' }), webhooksRouter);
+app.post(webhookPaths, webhooksRouter);
 app.use('/v1/sentinel', authenticateAnyToken, sentinelRouter);
 app.use('/v1/loans', authenticateAnyToken, loansRouter);
 app.use('/v1/products', authenticateAnyToken, productsRouter);
@@ -208,12 +246,13 @@ app.use('/v1/lender-matching', authenticateAnyToken, lenderMatchingRouter);
 
 // ── ML Rigor & AI Explainability Routes ─────────────────────────────
 // Exposes the top 3 prediction feature contributors with user-friendly descriptions
-app.get('/api/loan/:applicationId/explanation', async (req, res) => {
+app.get('/api/loan/:applicationId/explanation', authenticateAnyToken, async (req: AuthenticatedRequest, res) => {
   try {
     const { applicationId } = req.params;
     
     // 1. Check if prediction exists in Firestore loanPredictions collection
     const predSnapshot = await db.collection('loanPredictions')
+      .where('userId', '==', req.orgId)
       .where('applicationId', '==', applicationId)
       .orderBy('createdAt', 'desc')
       .limit(1)
@@ -226,7 +265,7 @@ app.get('/api/loan/:applicationId/explanation', async (req, res) => {
     } else {
       // 2. Try to fetch from applications collection and run predictor on-the-fly
       const appDoc = await db.collection('applications').doc(applicationId).get();
-      if (appDoc.exists) {
+      if (appDoc.exists && (appDoc.get('orgId') || appDoc.get('userId')) === req.orgId) {
         const appData = appDoc.data()!;
         const MLPredictionEngine = (await import('./services/ml-prediction-engine')).default;
         const request = {
@@ -364,32 +403,7 @@ app.use((err: Error, req: express.Request, res: express.Response, next: express.
 const server = app.listen(PORT, () => {
   console.log(`🚀 Gavel AI API Gateway running on port ${PORT}`);
 
-  setInterval(() => {
-    processWebhookQueue().catch(err => console.error("Webhook processor error:", err));
-  }, 30000);
 
-  setInterval(() => {
-    runDailyCollectionCheck().catch(err => console.error("Collection automation error:", err));
-  }, 6 * 60 * 60 * 1000);
-
-  const msUntil6AM = (() => {
-    const now = new Date();
-    const target = new Date(now);
-    target.setHours(6, 0, 0, 0);
-    if (target <= now) target.setDate(target.getDate() + 1);
-    return target.getTime() - now.getTime();
-  })();
-  setTimeout(() => {
-    runPortfolioClassification().catch(err => console.error("Portfolio classification error:", err));
-    setInterval(() => {
-      runPortfolioClassification().catch(err => console.error("Portfolio classification error:", err));
-    }, 24 * 60 * 60 * 1000);
-  }, msUntil6AM);
-
-  setTimeout(() => {
-    runDailyCollectionCheck().catch(err => console.error("Initial collection check error:", err));
-    runPortfolioClassification().catch(err => console.error("Initial portfolio classification error:", err));
-  }, 5000);
 });
 
 const shutdown = (signal: string) => {

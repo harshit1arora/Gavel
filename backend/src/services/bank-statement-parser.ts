@@ -1,4 +1,4 @@
-import pdfParse from 'pdf-parse';
+import { pdfParse } from '../utils/pdf';
 import * as fs from 'fs';
 import * as path from 'path';
 import admin from 'firebase-admin';
@@ -162,7 +162,7 @@ class BankStatementParser {
   private static async extractPdfText(filePath: string): Promise<string> {
     try {
       const fileBuffer = fs.readFileSync(filePath);
-      const pdfData = await (pdfParse as any)(fileBuffer);
+      const pdfData = await pdfParse(fileBuffer);
       return pdfData.text;
     } catch (error) {
       console.error('PDF extraction error:', error);

@@ -1,3 +1,4 @@
+import { PolicyReplay, SettlementReview } from '../components/dashboard/Operations';
 import { useEffect, useState } from "react";
 import { Joyride, Step } from "react-joyride";
 import { subscribeToApplications, LoanApplication, updateApplicationStatus } from "../lib/firestore";
@@ -29,7 +30,7 @@ import CommTemplatesView from "../components/dashboard/CommTemplatesView";
 import { useAuth } from "../contexts/AuthContext";
 import { toast } from "sonner";
 
-const TAB_IDS = [
+const TAB_IDS = ["replay", "settlements",
   "queue", "portfolio", "products", "disbursement", "banking", "collections",
   "sentinel", "compliance", "reports", "analytics", "audit", "integrations",
   "communications", "billing", "policies", "dev", "settings",
@@ -166,6 +167,8 @@ export default function Dashboard() {
           <div className="overflow-x-auto pb-2 custom-scrollbar">
             <div className="flex items-center gap-1 bg-foreground/5 p-1 rounded-2xl border border-white/5 w-max mb-12 backdrop-blur-md">
 {[
+                 { id: "replay", label: "Policy Replay", icon: ShieldCheck },
+                 { id: "settlements", label: "Settlement Review", icon: Banknote },
                  { id: "queue", label: "Queue", icon: LayoutDashboard },
                  { id: "portfolio", label: "Loan Portfolio", icon: Database },
                  { id: "products", label: "Products", icon: FileText },
@@ -363,7 +366,9 @@ export default function Dashboard() {
               </motion.div>
             )}
 
-{activeTab === "policies" && <PolicyEditor />}
+{activeTab === "replay" && <PolicyReplay />}
+             {activeTab === "settlements" && <SettlementReview />}
+             {activeTab === "policies" && <PolicyEditor />}
              {activeTab === "dev" && <DeveloperPortal />}
              {activeTab === "billing" && <BillingDashboard />}
              {activeTab === "integrations" && <Integrations />}

@@ -126,6 +126,10 @@ const Apply = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!orgId) {
+      toast.error("Sign in to submit a loan application.");
+      return;
+    }
     setIsSubmitting(true);
 
     try {
@@ -136,7 +140,7 @@ const Apply = () => {
         creditDebt: Number(formData.creditDebt) || 0,
         productId: selectedProduct,
 ...dynamicData,
-        orgId: orgId || "public-demo-bank",
+        orgId,
       };
 
       const newAppId = await submitApplication(parsedData);

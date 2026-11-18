@@ -6,7 +6,7 @@ import { dispatchWebhook } from '../services/webhooks';
 import { enforceQuota } from '../middleware/quota';
 import multer from 'multer';
 import { GoogleGenerativeAI, Schema } from '@google/generative-ai';
-const pdfParse = require('pdf-parse');
+import { pdfParse } from '../utils/pdf';
 
 const upload = multer({ storage: multer.memoryStorage() });
 const router = Router();

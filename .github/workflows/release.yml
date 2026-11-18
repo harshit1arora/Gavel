@@ -1,0 +1,104 @@
+name: Promote verified Gavel release
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: gavel-release
+  cancel-in-progress: false
+jobs:
+  publish:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Publish versioned images and capture digests
+        run: |
+          set -euo pipefail
+          repo="ghcr.io/${GITHUB_REPOSITORY,,}"
+          jq -n --arg revision "$GITHUB_SHA" '{revision:$revision,images:{}}' > release.json
+          for service in frontend backend decision-service; do
+            case "$service" in
+              frontend) context=.; file=Dockerfile.frontend ;;
+              backend) context=backend; file=backend/Dockerfile ;;
+              decision-service) context=.; file=engine-py/Dockerfile ;;
+            esac
+            image="$repo-$service"
+            docker buildx build --build-arg "GAVEL_REVISION=$GITHUB_SHA" --push --platform linux/amd64 -f "$file" -t "$image:$GITHUB_SHA" --metadata-file meta.json "$context"
+            digest=$(jq -er '."containerimage.digest"' meta.json)
+            jq --arg name "$service" --arg image "$image@$digest" '.images[$name]=$image' release.json > next.json
+            mv next.json release.json
+          done
+          docker pull redis:7-alpine
+          redis=$(docker image inspect --format '{{index .RepoDigests 0}}' redis:7-alpine)
+          jq --arg image "$redis" '.images.redis=$image' release.json > next.json
+          mv next.json release.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: gavel-release
+          path: release.json
+  staging:
+    needs: publish
+    runs-on: [self-hosted, linux, gavel-staging]
+    environment: staging
+    permissions:
+      contents: read
+      packages: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: gavel-release
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci --ignore-scripts --no-audit
+      - name: Roll out and verify
+        env:
+          GAVEL_ENV_FILE: ${{ vars.GAVEL_ENV_FILE }}
+          GAVEL_RELEASE_STATE: ${{ vars.GAVEL_RELEASE_STATE }}
+          GAVEL_PUBLIC_URL: ${{ vars.GAVEL_PUBLIC_URL }}
+          CHROME_PATH: ${{ vars.CHROME_PATH }}
+        run: python3 release/deploy.py release.json
+  production:
+    needs: staging
+    runs-on: [self-hosted, linux, gavel-production]
+    environment: production
+    permissions:
+      contents: read
+      packages: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: gavel-release
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci --ignore-scripts --no-audit
+      - name: Roll out and verify
+        env:
+          GAVEL_ENV_FILE: ${{ vars.GAVEL_ENV_FILE }}
+          GAVEL_RELEASE_STATE: ${{ vars.GAVEL_RELEASE_STATE }}
+          GAVEL_PUBLIC_URL: ${{ vars.GAVEL_PUBLIC_URL }}
+          CHROME_PATH: ${{ vars.CHROME_PATH }}
+        run: python3 release/deploy.py release.json

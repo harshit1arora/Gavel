@@ -1,4 +1,5 @@
 import express, { Request, Response } from 'express';
+import { AuthenticatedRequest } from '../middleware/auth';
 import admin from 'firebase-admin';
 import MLPredictionEngine, { LoanPredictionRequest, LoanPredictionResult } from '../services/ml-prediction-engine';
 
@@ -9,10 +10,10 @@ const db = admin.firestore();
  * POST /prediction/predict
  * Get loan approval prediction for an application
  */
-router.post('/predict', async (req: Request, res: Response) => {
+router.post('/predict', async (req: AuthenticatedRequest, res: Response) => {
   try {
+    const userId = req.orgId!;
     const {
-      userId,
       applicationId,
       age,
       employmentType,
@@ -85,7 +86,7 @@ router.post('/predict', async (req: Request, res: Response) => {
  * Quick form-based estimate (less accurate but faster)
  * For real-time UI feedback as user fills form
  */
-router.post('/quick-estimate', async (req: Request, res: Response) => {
+router.post('/quick-estimate', async (req: AuthenticatedRequest, res: Response) => {
   try {
     const { monthlyIncome, existingEmi, creditScore, employmentType, loanAmount } = req.body;
 
@@ -129,9 +130,9 @@ router.post('/quick-estimate', async (req: Request, res: Response) => {
  * GET /prediction/history
  * Get prediction history for user
  */
-router.get('/history', async (req: Request, res: Response) => {
+router.get('/history', async (req: AuthenticatedRequest, res: Response) => {
   try {
-    const userId = (req as any).user?.uid;
+    const userId = req.orgId;
     if (!userId) {
       return res.status(401).json({ error: 'Not authenticated' });
     }
@@ -158,12 +159,12 @@ router.get('/history', async (req: Request, res: Response) => {
  * GET /prediction/:predictionId
  * Get specific prediction details
  */
-router.get('/:predictionId', async (req: Request, res: Response) => {
+router.get('/:predictionId', async (req: AuthenticatedRequest, res: Response) => {
   try {
     const { predictionId } = req.params;
 
     const predDoc = await db.collection('loanPredictions').doc(predictionId).get();
-    if (!predDoc.exists) {
+    if (!predDoc.exists || predDoc.get('userId') !== req.orgId) {
       return res.status(404).json({ error: 'Prediction not found' });
     }
 
@@ -184,10 +185,10 @@ router.get('/:predictionId', async (req: Request, res: Response) => {
  * POST /prediction/scenarios
  * Compare multiple scenarios (different loan amounts/tenures)
  */
-router.post('/scenarios', async (req: Request, res: Response) => {
+router.post('/scenarios', async (req: AuthenticatedRequest, res: Response) => {
   try {
+    const userId = req.orgId!;
     const {
-      userId,
       applicationId,
       monthlyIncome,
       existingEmi,

@@ -38,7 +38,7 @@
       "suite": "routes",
       "name": "GET /",
       "pass": true,
-      "detail": "10088 chars"
+      "detail": "10086 chars"
     },
     {
       "suite": "routes",
@@ -290,13 +290,13 @@
       "suite": "nav",
       "name": "navbar \"Try it free\" → /try",
       "pass": true,
-      "detail": "http://127.0.0.1:4396/try"
+      "detail": "http://127.0.0.1:4300/try"
     },
     {
       "suite": "nav",
       "name": "footer \"Live Demo\" → /demo",
       "pass": true,
-      "detail": "http://127.0.0.1:4396/demo"
+      "detail": "http://127.0.0.1:4300/demo"
     },
     {
       "suite": "nav",
@@ -314,13 +314,13 @@
       "suite": "nav",
       "name": "dropdown navigates to a module",
       "pass": true,
-      "detail": "http://127.0.0.1:4396/platform/collections"
+      "detail": "http://127.0.0.1:4300/platform/collections"
     },
     {
       "suite": "auth",
       "name": "/collections → /platform when logged out",
       "pass": true,
-      "detail": "http://127.0.0.1:4396/platform"
+      "detail": "http://127.0.0.1:4300/platform"
     },
     {
       "suite": "auth",

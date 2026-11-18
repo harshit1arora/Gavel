@@ -5,6 +5,8 @@ Boots both backends as real HTTP servers (subprocess), exercises their public
 surface, and shuts them down. Prints PASS/FAIL per check and a summary.
 """
 
+import hashlib
+import hmac
 import json
 import os
 import signal
@@ -155,13 +157,14 @@ def test_node_gateway():
     env = {
         **os.environ,
         "PORT": str(NODE_PORT),
+        "RAZORPAY_WEBHOOK_SECRET": "local-fixture-secret",
         "NODE_ENV": "test",
         "JWT_SECRET": "test-secret-at-least-32-characters-long",
         "WEBHOOK_SIGNING_SECRET": "test-webhook-secret-at-least-32-characters",
         "ALLOWED_ORIGINS": "http://localhost:5173",
     }
     proc = subprocess.Popen(
-        ["npx", "ts-node-dev", "--respawn", "--transpile-only", "src/index.ts"],
+        ["node", "dist/index.js"],
         cwd=f"{REPO}/backend", env=env,
         stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
     )
@@ -177,6 +180,15 @@ def test_node_gateway():
 
         status, _ = http(f"{base}/docs")
         record("node", "Swagger UI served at /docs", status == 200)
+
+        # A signed, unhandled event exercises parsing and routing without a database write.
+        payload = {"event": "test.noop"}
+        signature = hmac.new(b"local-fixture-secret", json.dumps(payload).encode(), hashlib.sha256).hexdigest()
+        for path in ["/v1/payments/webhook", "/v1/webhooks/razorpay"]:
+            status, body = http(base + path, "POST", payload, {"x-razorpay-signature": signature})
+            record("node", f"{path} accepts signed bytes", status == 200 and body.get("received") is True)
+        status, _ = http(base + "/api/loan/test/explanation")
+        record("node", "explanation requires authentication", status == 401)
 
         # auth gates
         for path in ["/v1/underwriting/evaluate", "/v1/payments", "/v1/parse/bank-statement",

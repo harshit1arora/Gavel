@@ -109,7 +109,7 @@ export const submitApplication = async (data: Omit<LoanApplication, "id" | "stat
     aiScore: null,
     aiReasoning: null,
     createdAt: serverTimestamp(),
-    orgId: data.orgId || "public-demo-bank",
+    orgId: data.orgId,
   });
   return docRef.id;
 };

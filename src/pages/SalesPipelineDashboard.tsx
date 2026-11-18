@@ -1,3 +1,4 @@
+import { API_BASE } from '@/lib/api-base';
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { apiWithAuth, parseResponse } from '../lib/api-client';
@@ -64,7 +65,7 @@ const SalesPipelineDashboard: React.FC = () => {
   const [liveDemoRequests, setLiveDemoRequests] = useState<any[]>([]);
 
   useEffect(() => {
-    const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+    const baseUrl = API_BASE;
     const eventSource = new EventSource(`${baseUrl}/v1/demo-request/stream`);
 
     eventSource.addEventListener('initial_data', (e: any) => {

@@ -22,7 +22,7 @@ import { parseStatementText, type ParsedStatement } from "@/lib/engine/statement
 import { analyze, inr } from "@/lib/engine/evaluate";
 import { downloadDecisionPdf } from "@/lib/engine/export";
 import { SAMPLE_APPLICANTS, sampleStatementText } from "@/lib/engine/samples";
-import { extractWithVision, visionConfigured } from "@/lib/engine/vision";
+import { extractWithVision } from "@/lib/engine/vision";
 import type { DecisionResult } from "@/lib/engine/types";
 import { useT } from "@/i18n/LanguageProvider";
 
@@ -229,7 +229,7 @@ export default function TryIt() {
                     <div className="flex flex-wrap items-center gap-2 mt-4">
                       <button
                         onClick={() => void runVision()}
-                        disabled={visionBusy || !visionConfigured()}
+                        disabled={visionBusy}
                         className="g-btn g-btn-primary !h-9 !px-4 !text-[13px]"
                       >
                         {visionBusy ? (

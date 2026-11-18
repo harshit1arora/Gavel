@@ -1,13 +1,4 @@
-import {
-  db,
-  getDocs,
-  query,
-  where,
-  collection,
-  Timestamp,
-  orderBy,
-  limit,
-} from '../config/firebase';
+import { db, Timestamp } from '../config/firebase';
 
 export type RiskLevel = 'green' | 'amber' | 'red';
 
@@ -130,13 +121,13 @@ export async function calculateBorrowerRiskScore(
  */
 export async function getCollectionsMetrics(orgId: string): Promise<CollectionsMetrics> {
   try {
-    const collectionsRef = collection(db, `organizations/${orgId}/collection_cases`);
+    const collectionsRef = db.collection(`organizations/${orgId}/collection_cases`);
 
     const [allCases, highRiskCases, mediumRiskCases, lowRiskCases] = await Promise.all([
-      getDocs(collectionsRef),
-      getDocs(query(collectionsRef, where('riskLevel', '==', 'red'))),
-      getDocs(query(collectionsRef, where('riskLevel', '==', 'amber'))),
-      getDocs(query(collectionsRef, where('riskLevel', '==', 'green'))),
+      collectionsRef.get(),
+      collectionsRef.where('riskLevel', '==', 'red').get(),
+      collectionsRef.where('riskLevel', '==', 'amber').get(),
+      collectionsRef.where('riskLevel', '==', 'green').get(),
     ]);
 
     let totalOverdueAmount = 0;
@@ -194,16 +185,10 @@ export async function getHighestRiskBorrowers(
   limit_count: number = 10
 ): Promise<BorrowerRiskScore[]> {
   try {
-    const collectionsRef = collection(db, `organizations/${orgId}/collection_cases`);
+    const collectionsRef = db.collection(`organizations/${orgId}/collection_cases`);
 
-    const snapshot = await getDocs(
-      query(
-        collectionsRef,
-        where('riskLevel', '==', 'red'),
-        orderBy('daysOverdue', 'desc'),
-        limit(limit_count)
-      )
-    );
+    const snapshot = await collectionsRef.where('riskLevel', '==', 'red')
+      .orderBy('daysOverdue', 'desc').limit(limit_count).get();
 
     const borrowers: BorrowerRiskScore[] = [];
     snapshot.forEach((docSnap: any) => {

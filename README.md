@@ -102,8 +102,22 @@ only need Firebase for the authenticated console and the REST API.
 docker compose up --build
 ```
 
-See `.env.example` for the full list of variables. Nothing is required except a Firebase
-project if you want persistence; the engine and the browser demo work without it.
+The browser demo and text-based decision engine run without credentials. For the lending console,
+supply the Firebase web settings at frontend build time and the matching Admin credentials to the gateway.
+Deploy the included Firestore rules to that project. Loan application submission requires sign-in.
+Existing records with the shared demo organization ID require manual ownership reconciliation before users can access them.
+
+Compose serves the frontend and gateway through the same browser origin. For separately hosted static
+assets, set `VITE_API_BASE_URL` to the public HTTPS gateway before building and add the frontend origin
+to `ALLOWED_ORIGINS`. For scanned statements, configure `GEMINI_API_KEY` on the decision service.
+Set the same `GAVEL_API_KEY` on the gateway and engine to require authentication for vision uploads.
+The gateway reads `DECISION_SERVICE_URL` to reach the engine. Rotate any engine secret previously shipped
+as `VITE_ENGINE_KEY`.
+
+The Kubernetes manifests expect existing Secrets named `gavel-backend-secrets` and
+`gavel-decision-secrets` in the application namespace. Populate them using your secret manager.
+Point the deployments at images published to your registry. CI builds and checks artifacts.
+The release workflow promotes pinned images through staging and production. See [release setup, rollback and operator workflows](release/README.md).
 
 ## The engine
 
@@ -141,9 +155,9 @@ console.log(result.decision, result.risk_score, result.reasons);
 
 ## Privacy
 
-`/try` parses the PDF in the tab. There is no upload endpoint involved, no analytics event
-carrying the contents, and no server-side copy. Close the tab and the statement is gone. The
-self-hosted deployment only talks to the Firebase project you configure.
+The text-based PDF parser runs in the browser. If the user selects vision parsing for a scan,
+the browser sends the file to the decision service via the gateway, and the decision service
+sends it to the configured Gemini provider for transcription.
 
 ## Testing
 

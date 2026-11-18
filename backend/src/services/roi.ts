@@ -1,11 +1,4 @@
-import {
-  db,
-  getDocs,
-  query,
-  where,
-  collection,
-  Timestamp,
-} from '../config/firebase';
+import { db, Timestamp } from '../config/firebase';
 
 export interface ROIMetrics {
   decisions: number;
@@ -41,15 +34,11 @@ export async function calculateROIForPeriod(
   costPerDecision: number = 7.50 // Default Gemini cost
 ): Promise<ROIMetrics> {
   try {
-    const applicationsRef = collection(db, `organizations/${orgId}/applications`);
+    const applicationsRef = db.collection(`organizations/${orgId}/applications`);
     
-    const snapshot = await getDocs(
-      query(
-        applicationsRef,
-        where('createdAt', '>=', Timestamp.fromDate(startDate)),
-        where('createdAt', '<=', Timestamp.fromDate(endDate))
-      )
-    );
+    const snapshot = await applicationsRef
+      .where('createdAt', '>=', Timestamp.fromDate(startDate))
+      .where('createdAt', '<=', Timestamp.fromDate(endDate)).get();
 
     const decisions = snapshot.size;
     const hoursSaved = decisions * HOURS_PER_DECISION;

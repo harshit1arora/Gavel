@@ -9,12 +9,12 @@ WORKDIR /app
 
 RUN useradd --create-home --uid 1001 gavel
 
-COPY requirements.txt .
+COPY engine-py/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY app ./app
+COPY engine-py/app ./app
 # The service reads the same policy JSON the Node backend and the browser use.
-COPY ../src/data/policies ./policies
+COPY src/data/policies ./policies
 
 USER gavel
 EXPOSE 8090

@@ -1,3 +1,6 @@
+import { API_BASE } from '../api-base';
+import { auth } from '../firebase';
+
 /**
  * Vision parsing for statements with no text layer.
  *
@@ -25,26 +28,22 @@ export interface VisionParse {
   processing_ms: number;
 }
 
-const ENGINE_URL = (import.meta.env.VITE_ENGINE_URL as string | undefined) ?? "http://localhost:8090";
-const ENGINE_KEY = (import.meta.env.VITE_ENGINE_KEY as string | undefined) ?? "";
-
-export const visionConfigured = () => Boolean(ENGINE_URL);
+const directEngine = import.meta.env.VITE_ENGINE_URL as string | undefined;
+const ENGINE_URL = directEngine || API_BASE;
 
 export async function extractWithVision(file: File): Promise<VisionParse> {
   const form = new FormData();
   form.append("file", file, file.name);
 
-  const headers: Record<string, string> = {};
-  if (ENGINE_KEY) headers.Authorization = `Bearer ${ENGINE_KEY}`;
-
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), 120_000);
 
   try {
+    const token = directEngine ? undefined : await auth.currentUser?.getIdToken();
     const response = await fetch(`${ENGINE_URL}/v1/parse/vision`, {
       method: "POST",
       body: form,
-      headers,
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
       signal: controller.signal,
     });
 

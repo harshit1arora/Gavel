@@ -13,13 +13,17 @@ import {
 } from "firebase/auth";
 import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
 
+declare global {
+  interface Window { gavelFirebase?: Partial<Record<'apiKey'|'authDomain'|'projectId'|'storageBucket'|'messagingSenderId'|'appId', string>> }
+}
+const runtime = globalThis.window?.gavelFirebase;
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY || "YOUR_API_KEY",
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "YOUR_AUTH_DOMAIN",
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID || "YOUR_PROJECT_ID",
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "YOUR_STORAGE_BUCKET",
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "YOUR_MESSAGING_SENDER_ID",
-  appId: import.meta.env.VITE_FIREBASE_APP_ID || "YOUR_APP_ID"
+  apiKey: runtime?.apiKey || import.meta.env.VITE_FIREBASE_API_KEY || "YOUR_API_KEY",
+  authDomain: runtime?.authDomain || import.meta.env.VITE_FIREBASE_AUTH_DOMAIN || "YOUR_AUTH_DOMAIN",
+  projectId: runtime?.projectId || import.meta.env.VITE_FIREBASE_PROJECT_ID || "YOUR_PROJECT_ID",
+  storageBucket: runtime?.storageBucket || import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "YOUR_STORAGE_BUCKET",
+  messagingSenderId: runtime?.messagingSenderId || import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID || "YOUR_MESSAGING_SENDER_ID",
+  appId: runtime?.appId || import.meta.env.VITE_FIREBASE_APP_ID || "YOUR_APP_ID"
 };
 
 /**
@@ -31,8 +35,8 @@ const firebaseConfig = {
  * of waiting on a network call that will never resolve.
  */
 export const isFirebaseConfigured = (() => {
-  const key = import.meta.env.VITE_FIREBASE_API_KEY;
-  const project = import.meta.env.VITE_FIREBASE_PROJECT_ID;
+  const key = firebaseConfig.apiKey;
+  const project = firebaseConfig.projectId;
   const isPlaceholder = (v?: string) => !v || v.includes("YOUR_") || v === "your-api-key";
   return !isPlaceholder(key) && !isPlaceholder(project);
 })();

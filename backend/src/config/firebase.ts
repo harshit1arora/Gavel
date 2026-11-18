@@ -28,20 +28,4 @@ if (!admin.apps.length) {
 export const db = admin.firestore();
 export { admin };
 
-export const {
-  getFirestore,
-  collection,
-  doc,
-  getDoc,
-  getDocs,
-  setDoc,
-  updateDoc,
-  deleteDoc,
-  query,
-  where,
-  orderBy,
-  limit,
-  Timestamp,
-  DocumentReference,
-  FieldValue
-} = require('firebase-admin/firestore');
+export { Timestamp, FieldValue, DocumentReference, getFirestore } from 'firebase-admin/firestore';

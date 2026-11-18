@@ -3,12 +3,7 @@ import multer from 'multer';
 
 const router = Router();
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const pdfParse = async (buffer: any): Promise<{ text: string }> => {
-   
-  const pdf = require('pdf-parse');
-  return pdf(buffer) as Promise<{ text: string }>;
-};
+import { pdfParse } from '../utils/pdf';
 
 interface AuthRequest extends Request {
   userId?: string;

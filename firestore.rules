@@ -13,15 +13,9 @@ service cloud.firestore {
 
     // 1. Applications: Public demo + tenant-isolated access
     match /applications/{docId} {
-      allow read: if 
-          (resource.data.orgId == 'public-demo-bank') ||
-          isOwner();
-
-      allow create: if 
-          (request.resource.data.orgId == 'public-demo-bank') ||
-          isOwnerCreate();
-
-      allow update: if isOwner();
+      allow read: if isOwner();
+      allow create: if isOwnerCreate();
+      allow update: if isOwner() && isOwnerCreate();
       allow delete: if false; // Applications are immutable records
     }
     
@@ -37,7 +31,7 @@ service cloud.firestore {
     match /policies/{docId} {
       allow read: if isOwner();
       allow create: if isOwnerCreate();
-      allow update: if isOwner();
+      allow update: if isOwner() && isOwnerCreate();
       allow delete: if false;
     }
 
@@ -54,7 +48,7 @@ service cloud.firestore {
 
       // History archive subcollection
       match /history_archive/{historyId} {
-        allow read: if request.auth != null;
+        allow read: if request.auth != null && get(/databases/$(database)/documents/monitored_borrowers/$(docId)).data.orgId == request.auth.uid;
         allow write: if false;
       }
     }
@@ -76,7 +70,8 @@ service cloud.firestore {
     match /team_members/{docId} {
       allow read: if isOwner();
       allow create: if isOwnerCreate();
-      allow update, delete: if isOwner();
+      allow update: if isOwner() && isOwnerCreate();
+      allow delete: if isOwner();
     }
 
     // 8. System config: Read-only

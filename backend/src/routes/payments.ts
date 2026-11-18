@@ -6,7 +6,6 @@ import fetch from 'node-fetch';
 
 const RAZORPAY_KEY_ID = process.env.RAZORPAY_KEY_ID || '';
 const RAZORPAY_KEY_SECRET = process.env.RAZORPAY_KEY_SECRET || '';
-const RAZORPAY_WEBHOOK_SECRET = process.env.RAZORPAY_WEBHOOK_SECRET || '';
 const RAZORPAY_API_URL = 'https://api.razorpay.com/v1';
 
 interface Payment {
@@ -29,16 +28,7 @@ interface Payment {
 
 const router = Router();
 
-// ── Auth gate ────────────────────────────────────────────────────────────────
-// Every payments route requires a valid API key / Firebase token EXCEPT the
-// Razorpay webhook, which is authenticated by HMAC signature instead (see the
-// `/webhook` handler; it verifies x-razorpay-signature). Mounting auth here,
-// rather than in index.ts, keeps the open-vs-closed routing decision colocated
-// with the routes themselves so it cannot silently regress.
-router.use((req, res, next) => {
-  if (req.path === '/webhook') return next();
-  return authenticateAnyToken(req as AuthenticatedRequest, res, next);
-});
+router.use(authenticateAnyToken);
 
 const isConfigured = () => RAZORPAY_KEY_ID && RAZORPAY_KEY_SECRET;
 
@@ -60,15 +50,6 @@ async function razorpayRequest(endpoint: string, method: string = 'GET', body?: 
   return data;
 }
 
-function verifyWebhookSignature(body: string, signature: string, secret: string): boolean {
-  const expected = crypto.createHmac('sha256', secret).update(body).digest('hex');
-  try {
-    return crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(expected));
-  } catch {
-    return false;
-  }
-}
-
 async function savePayment(payment: Payment) {
   await db.collection('payments').doc(payment.id).set({
 ...payment,
@@ -85,8 +66,9 @@ async function savePayment(payment: Payment) {
   });
 }
 
-async function markScheduleEMIAsPaid(loanId: string, amount: number, method: string) {
+async function markScheduleEMIAsPaid(orgId: string, loanId: string, amount: number, method: string) {
   const scheduleSnapshot = await db.collection('repayment_schedules')
+.where('orgId', '==', orgId)
 .where('loanId', '==', loanId)
 .limit(1)
 .get();
@@ -124,13 +106,16 @@ router.post('/order', async (req: AuthenticatedRequest, res: Response) => {
   try {
     const { loanId, amount, customerName, customerEmail, customerPhone, description } = req.body;
 
-    if (!loanId || !amount || amount <= 0) {
+    if (!loanId || !Number.isFinite(amount) || amount <= 0) {
       return res.status(400).json({ error: 'loanId and valid amount required' });
     }
 
     const paymentId = `pay_${Date.now()}_${crypto.randomBytes(4).toString('hex')}`;
 
     if (!isConfigured()) {
+      if (process.env.NODE_ENV === 'production') {
+        return res.status(503).json({ error: 'Payment gateway not configured' });
+      }
       const orderId = `order_${Date.now()}_${crypto.randomBytes(4).toString('hex')}`;
       await db.collection('payments').doc(paymentId).set({
         id: paymentId,
@@ -195,7 +180,7 @@ router.post('/link', async (req: AuthenticatedRequest, res: Response) => {
   try {
     const { loanId, amount, description, customerName, customerEmail, customerPhone } = req.body;
 
-    if (!loanId || !amount || amount <= 0) {
+    if (!loanId || !Number.isFinite(amount) || amount <= 0) {
       return res.status(400).json({ error: 'loanId and valid amount required' });
     }
 
@@ -206,7 +191,7 @@ router.post('/link', async (req: AuthenticatedRequest, res: Response) => {
       });
     }
 
-    const paymentLink = await razorpayRequest('/payment-links', 'POST', {
+    const paymentLink = await razorpayRequest('/payment_links', 'POST', {
       amount: Math.round(amount * 100),
       currency: 'INR',
       description: description || `Loan Payment - ${loanId}`,
@@ -225,77 +210,6 @@ router.post('/link', async (req: AuthenticatedRequest, res: Response) => {
     });
   } catch (error: any) {
     res.status(500).json({ error: error.message || 'Failed to create payment link' });
-  }
-});
-
-router.post('/webhook', async (req: AuthenticatedRequest, res: Response) => {
-  try {
-    const signature = req.headers['x-razorpay-signature'] as string;
-    if (!signature) return res.status(400).json({ error: 'Missing webhook signature' });
-
-    const rawBody = typeof req.body === 'string' ? req.body: JSON.stringify(req.body);
-
-    if (RAZORPAY_WEBHOOK_SECRET && !verifyWebhookSignature(rawBody, signature, RAZORPAY_WEBHOOK_SECRET)) {
-      console.error('[Payment Webhook] Invalid signature');
-      return res.status(400).json({ error: 'Invalid signature' });
-    }
-
-    const event = req.body;
-    const entity = event.payload?.payment?.entity;
-
-    if (!entity) return res.status(400).json({ error: 'Invalid payload' });
-
-    const { id: razorpayPaymentId, order_id: razorpayOrderId, status, amount, method, notes, error_description } = entity;
-    const loanAmount = amount / 100;
-    const loanId = notes?.loanId || '';
-    const orgId = notes?.orgId || '';
-
-    console.log(`[Webhook] ${event.type}: ${razorpayPaymentId} - ${status} - Rs${loanAmount}`);
-
-    if (event.type === 'payment.captured') {
-      await db.collection('payments').doc(razorpayPaymentId).set({
-        id: razorpayPaymentId,
-        loanId,
-        orgId,
-        amount: loanAmount,
-        currency: 'INR',
-        status: 'captured',
-        razorpayOrderId,
-        razorpayPaymentId,
-        method,
-        capturedAt: new Date(),
-        createdAt: new Date(),
-      }, { merge: true });
-
-      if (orgId) {
-        await db.collection('audit_logs').add({
-          orgId,
-          action: 'PAYMENT_CAPTURED',
-          targetId: razorpayPaymentId,
-          detail: `Payment captured for loan ${loanId}: Rs${loanAmount}`,
-          timestamp: new Date(),
-        });
-      }
-
-      if (loanId) await markScheduleEMIAsPaid(loanId, loanAmount, method);
-    } else if (event.type === 'payment.failed') {
-      await db.collection('payments').doc(razorpayPaymentId).set({
-        id: razorpayPaymentId,
-        loanId,
-        orgId,
-        amount: loanAmount,
-        status: 'failed',
-        razorpayOrderId,
-        razorpayPaymentId,
-        failureReason: error_description || 'Unknown',
-        createdAt: new Date(),
-      }, { merge: true });
-    }
-
-    res.status(200).json({ received: true });
-  } catch (error: any) {
-    console.error('[Payment Webhook] Error:', error.message);
-    res.status(500).json({ error: 'Webhook processing failed' });
   }
 });
 
@@ -387,7 +301,7 @@ router.post('/record', async (req: AuthenticatedRequest, res: Response) => {
   try {
     const { loanId, amount, method, reference, notes } = req.body;
 
-    if (!loanId || !amount || !method) {
+    if (!loanId || !Number.isFinite(amount) || amount <= 0 || !method) {
       return res.status(400).json({ error: 'loanId, amount, and method required' });
     }
 
@@ -409,7 +323,7 @@ router.post('/record', async (req: AuthenticatedRequest, res: Response) => {
     };
 
     await savePayment(payment);
-    await markScheduleEMIAsPaid(loanId, amount, method);
+    await markScheduleEMIAsPaid(req.orgId!, loanId, amount, method);
 
     res.status(201).json({
       id: paymentId,
@@ -427,7 +341,7 @@ router.post('/refund', async (req: AuthenticatedRequest, res: Response) => {
   try {
     const { paymentId, amount, reason } = req.body;
 
-    if (!paymentId || !amount || !reason) {
+    if (!paymentId || !Number.isFinite(amount) || amount <= 0 || !reason) {
       return res.status(400).json({ error: 'paymentId, amount, and reason required' });
     }
 
@@ -441,6 +355,9 @@ router.post('/refund', async (req: AuthenticatedRequest, res: Response) => {
     if (amount > paymentData.amount) return res.status(400).json({ error: 'Refund amount exceeds payment amount' });
 
     if (!isConfigured()) {
+      if (process.env.NODE_ENV === 'production') {
+        return res.status(503).json({ error: 'Payment gateway not configured' });
+      }
       const refundId = `ref_${Date.now()}_${crypto.randomBytes(4).toString('hex')}`;
       await db.collection('refunds').doc(refundId).set({
         id: refundId,
@@ -458,10 +375,9 @@ router.post('/refund', async (req: AuthenticatedRequest, res: Response) => {
       return res.status(200).json({ id: refundId, status: 'processed', stub: true });
     }
 
-    const refund = await razorpayRequest('/refunds', 'POST', {
-      payment_id: paymentId,
+    const refund = await razorpayRequest(`/payments/${encodeURIComponent(paymentData.razorpayPaymentId || paymentId)}/refund`, 'POST', {
       amount: Math.round(amount * 100),
-      reason,
+      notes: { reason },
     });
 
     await db.collection('refunds').doc(refund.id).set({

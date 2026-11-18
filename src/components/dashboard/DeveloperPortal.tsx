@@ -1,3 +1,4 @@
+import { API_BASE } from '@/lib/api-base';
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
@@ -288,10 +289,10 @@ export default function DeveloperPortal() {
                <p className="text-xs text-muted-foreground">Test endpoints live directly from your browser.</p>
              </div>
           </div>
-          <a href={`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080'}/docs`} target="_blank" rel="noreferrer" className="text-xs text-primary hover:underline">Open in new tab</a>
+          <a href={`${API_BASE}/docs`} target="_blank" rel="noreferrer" className="text-xs text-primary hover:underline">Open in new tab</a>
         </div>
         <iframe
-          src={`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080'}/docs`}
+          src={`${API_BASE}/docs`}
           className="w-full flex-1 bg-white"
           title="Swagger API Docs"
         />

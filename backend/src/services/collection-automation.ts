@@ -1,3 +1,4 @@
+import { storedDate } from '../utils/stored-date';
 import { db } from '../config/firebase';
 import nodemailer from 'nodemailer';
 
@@ -181,6 +182,7 @@ async function createOrUpdateCollectionCase(
   daysOverdue: number
 ): Promise<{ caseId: string; action: 'created' | 'updated' | 'escalated' }> {
   const existingQuery = await db.collection('collections')
+    .where('orgId', '==', loan.orgId)
     .where('loanId', '==', loan.id)
     .limit(1)
     .get();
@@ -201,18 +203,15 @@ async function createOrUpdateCollectionCase(
     amountOutstanding: loan.outstandingAmount,
     lastEmiDueDate: loan.firstEmiDueDate,
     missedEmis,
-    reminders: [],
-    actions: [],
-    recoveryNotes: [],
-    npaStartDate: isEscalated ? new Date() : undefined,
-    npaAge: isEscalated ? daysOverdue : undefined,
-    npaCategory: isEscalated ? npaCategory : undefined,
+    npaStartDate: isEscalated ? new Date() : null,
+    npaAge: isEscalated ? daysOverdue : null,
+    npaCategory: isEscalated ? npaCategory : null,
     priority: (isEscalated ? 'High' : missedEmis === 1 ? 'Medium' : 'Low') as 'High' | 'Medium' | 'Low',
   };
 
   if (existingQuery.empty) {
     const docRef = await db.collection('collections').add({
-      ...caseData,
+      ...caseData, reminders: [], actions: [], recoveryNotes: [],
       orgId: loan.orgId,
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -234,10 +233,10 @@ async function createOrUpdateCollectionCase(
     await db.collection('collections').doc(existingDoc.id).update({
       ...caseData,
       updatedAt: new Date(),
-      npaStartDate: isEscalated && !existingData.npaStartDate ? new Date() : existingData.npaStartDate,
-      npaAge: isEscalated ? daysOverdue : undefined,
-      npaCategory: isEscalated ? npaCategory : undefined,
-      priority: isEscalated ? 'High' : existingData.priority,
+      npaStartDate: isEscalated && !existingData.npaStartDate ? new Date() : existingData.npaStartDate || null,
+      npaAge: isEscalated ? daysOverdue : null,
+      npaCategory: isEscalated ? npaCategory : null,
+      priority: isEscalated ? 'High' : existingData.priority || caseData.priority,
     });
 
     await db.collection('audit_logs').add({
@@ -266,7 +265,7 @@ export async function triggerCollectionWorkflow(
     ? `Hi ${loan.borrowerName}, your EMI of ₹${loan.emiAmount.toLocaleString('en-IN')} is overdue. Please pay by EOD to avoid penalties. Ref: ${loan.id}`
     : `Hi ${loan.borrowerName}, your account has ${missedEmis} EMI(s) overdue totaling ₹${(missedEmis * loan.emiAmount).toLocaleString('en-IN')}. Please contact us immediately at 1800-XXX-XXXX. Ref: ${loan.id}`;
 
-  const smsSent = await sendTwilioSMS(loan.borrowerPhone, borrowerSMS);
+  const smsSent = !!loan.borrowerPhone && await sendTwilioSMS(loan.borrowerPhone, borrowerSMS);
 
   const emailSent = await sendLenderAlertEmail(orgId, loan, missedEmis, daysOverdue);
 
@@ -310,7 +309,7 @@ export async function processOverdueLoans(orgId?: string): Promise<{
 
       const overdueItems = schedule.schedules.filter((s: any) => {
         if (s.status === 'Overdue') return true;
-        if (s.status === 'Pending' && new Date(s.dueDate) < new Date()) return true;
+        if (s.status === 'Pending' && storedDate(s.dueDate) < new Date()) return true;
         return false;
       });
 
@@ -318,18 +317,18 @@ export async function processOverdueLoans(orgId?: string): Promise<{
 
       const missedEmis = overdueItems.length;
       const latestOverdue = overdueItems[overdueItems.length - 1];
-      const dueDate = new Date(latestOverdue.dueDate);
+      const dueDate = storedDate(latestOverdue.dueDate);
       const daysOverdue = Math.max(1, Math.floor((Date.now() - dueDate.getTime()) / (1000 * 60 * 60 * 24)));
 
       const loan: LoanInfo = {
         id: schedule.loanId,
         borrowerId: schedule.borrowerId,
         borrowerName: schedule.borrowerName,
-        borrowerPhone: schedule.borrowerPhone || '+919876543210',
-        borrowerEmail: schedule.borrowerEmail || 'borrower@example.com',
+        borrowerPhone: schedule.borrowerPhone || '',
+        borrowerEmail: schedule.borrowerEmail || '',
         loanAmount: schedule.loanAmount,
         outstandingAmount: schedule.totalOutstanding,
-        firstEmiDueDate: new Date(schedule.firstEmiDate),
+        firstEmiDueDate: storedDate(schedule.firstEmiDate),
         emiAmount: schedule.emiAmount,
         orgId: schedule.orgId,
       };
@@ -363,17 +362,21 @@ export async function runDailyCollectionCheck(): Promise<void> {
 
     const snapshot = await db.collection('organizations').get();
 
+    let failures = 0;
     for (const orgDoc of snapshot.docs) {
       const orgId = orgDoc.id;
       try {
-        await processOverdueLoans(orgId);
+        failures += (await processOverdueLoans(orgId)).failed;
       } catch (error) {
+        failures++;
         console.error(`Collection check failed for org ${orgId}:`, error);
       }
     }
 
+    if (failures) throw Error(`Collection check had ${failures} failures`);
     console.log('[Scheduler] Daily collection check complete');
   } catch (error) {
     console.error('[Scheduler] Daily check error:', error);
+    throw error;
   }
 }

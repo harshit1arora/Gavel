@@ -1,3 +1,4 @@
+import { storedDate } from '../utils/stored-date';
 import { db } from '../config/firebase';
 
 export type AssetClassification = 'Standard' | 'SMA-0' | 'SMA-1' | 'SMA-2' | 'NPA';
@@ -197,25 +198,25 @@ export const classifyLoanAsset = async (
 
   if (scheduleItems) {
     const overdueItems = scheduleItems.filter(s => s.status === 'Overdue' || 
-      (s.status === 'Pending' && new Date(s.dueDate) < new Date()));
+      (s.status === 'Pending' && storedDate(s.dueDate) < new Date()));
     
     overdueEMICount = overdueItems.length;
     
     if (overdueItems.length > 0) {
       const latest = overdueItems[overdueItems.length - 1];
-      lastEMIDueDate = new Date(latest.dueDate);
+      lastEMIDueDate = storedDate(latest.dueDate);
       daysOverdue = calculateDPD(lastEMIDueDate);
       
       const paidItems = scheduleItems.filter(s => s.status === 'Paid');
       if (paidItems.length > 0) {
         const latestPaid = paidItems[paidItems.length - 1];
-        lastPaymentDate = new Date((latestPaid as any).paidDate || latestPaid.dueDate);
+        lastPaymentDate = storedDate((latestPaid as any).paidDate || latestPaid.dueDate);
       }
     } else {
       const pendingItems = scheduleItems.filter(s => s.status === 'Pending');
       if (pendingItems.length > 0) {
         const earliestPending = pendingItems[0];
-        lastEMIDueDate = new Date(earliestPending.dueDate);
+        lastEMIDueDate = storedDate(earliestPending.dueDate);
         const diff = calculateDPD(lastEMIDueDate);
         if (diff > 0) {
           daysOverdue = diff;
@@ -228,12 +229,12 @@ export const classifyLoanAsset = async (
     overdueAmount = overdueItems.reduce((sum, item) => sum + item.emiAmount, 0);
   } else {
     const daysSinceFirstEMI = loan.firstEmiDate 
-      ? calculateDPD(new Date(loan.firstEmiDate))
+      ? calculateDPD(storedDate(loan.firstEmiDate))
       : 0;
     
     const scheduledEMIs = Math.floor(daysSinceFirstEMI / 30);
     const paidEMIs = loan.lastPaymentDate 
-      ? Math.floor(calculateDPD(new Date(loan.lastPaymentDate)) / 30)
+      ? Math.floor(calculateDPD(storedDate(loan.lastPaymentDate)) / 30)
       : 0;
     
     overdueEMICount = Math.max(0, scheduledEMIs - paidEMIs);
@@ -241,7 +242,7 @@ export const classifyLoanAsset = async (
     overdueAmount = overdueEMICount * loan.emiAmount;
     
     if (loan.lastPaymentDate) {
-      lastPaymentDate = new Date(loan.lastPaymentDate);
+      lastPaymentDate = storedDate(loan.lastPaymentDate);
     }
   }
 
@@ -295,7 +296,8 @@ export const updateLoanClassification = async (
   classification: LoanAssetClassification
 ): Promise<void> => {
   await db.collection('loan_classifications').doc(`${orgId}_${loanId}`).set({
-    ...classification,
+    ...Object.fromEntries(Object.entries(classification).map(([key, value]) => [key, value ?? null])),
+    orgId,
     updatedAt: new Date(),
   }, { merge: true });
 
@@ -405,6 +407,7 @@ export const runPortfolioClassification = async (orgId?: string): Promise<{
     loan.id = loanDoc.id;
 
     const scheduleSnapshot = await db.collection('repayment_schedules')
+      .where('orgId', '==', loan.orgId)
       .where('loanId', '==', loanDoc.id)
       .limit(1)
       .get();

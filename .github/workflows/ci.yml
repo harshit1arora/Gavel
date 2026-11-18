@@ -8,7 +8,8 @@ on:
   workflow_dispatch:
 
 env:
-  NODE_VERSION: '20'
+  NODE_VERSION: '22'
+  PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'true'
   FIREBASE_PROJECT_ID: ${{ vars.FIREBASE_PROJECT_ID || 'gavel-demo' }}
 
 jobs:
@@ -53,9 +54,23 @@ jobs:
           cache-dependency-path: ./backend/package-lock.json
 
       - run: npm ci
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Start local Firestore emulator
+        run: |
+          curl -fsSL https://storage.googleapis.com/firebase-preview-drop/emulator/cloud-firestore-emulator-v1.19.8.jar -o /tmp/firestore.jar
+          echo '9d43599ed6151199e8d604dc87fac51218e49e5f3a48519b1ae560bbe5e3382d  /tmp/firestore.jar' | sha256sum -c -
+          java -jar /tmp/firestore.jar --host 127.0.0.1 --port 18595 >/tmp/firestore.log 2>&1 &
+          for i in {1..30}; do if curl -fsS http://127.0.0.1:18595/; then exit 0; fi; sleep 1; done
+          exit 1
       - run: npm run test
         env:
           CI: true
+          FIRESTORE_EMULATOR_HOST: 127.0.0.1:18595
+          FIREBASE_PROJECT_ID: demo-gavel-ops
+      - run: python3 -m unittest discover -s ../release -p 'test_*.py'
 
       - name: Upload coverage
         if: github.ref == 'refs/heads/main'
@@ -192,6 +207,8 @@ jobs:
           cache: 'npm'
           cache-dependency-path: ./package-lock.json
 
+      - run: npm ci
+
       - name: Build
         run: npm run build
         env:
@@ -211,38 +228,20 @@ jobs:
           path: ./dist/
           retention-days: 7
 
-  # ── Deploy to Staging ────────────────────────────────────────────
-  deploy-staging:
-    name: Deploy to Staging
+  compose-smoke:
+    name: Production container smoke test
     runs-on: ubuntu-latest
-    needs: [backend-build, frontend-build]
-    if: github.ref == 'refs/heads/develop'
-    environment: staging
     steps:
       - uses: actions/checkout@v4
-
-      - name: Deploy to cloud
-        run: |
-          echo "Staging deployment triggered"
-          # Add your cloud deployment steps here:
-          # - kubectl apply -f k8s/ -n staging
-          # - helm upgrade --install gavel-staging ./charts/gavel --namespace staging
-          echo "Deployment complete"
-
-  # ── Deploy to Production ─────────────────────────────────────────
-  deploy-production:
-    name: Deploy to Production
-    runs-on: ubuntu-latest
-    needs: [backend-build, frontend-build]
-    if: github.ref == 'refs/heads/main'
-    environment: production
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Deploy to production
-        run: |
-          echo "Production deployment triggered"
-          # Add your production deployment steps here:
-          # - kubectl apply -f k8s/ -n production
-          # - helm upgrade --install gavel ./charts/gavel --namespace production
-          echo "Deployment complete"
+      - run: docker compose up --build --wait --wait-timeout 180
+        env:
+          JWT_SECRET: ci-only-not-a-deployment-secret-123456
+          WEBHOOK_SIGNING_SECRET: ci-only-not-a-deployment-secret-654321
+      - run: |
+          curl -fsS http://localhost:5173/health
+          curl -fsS http://localhost:8080/health
+          curl -fsS http://localhost:8090/readyz
+      - if: failure()
+        run: docker compose logs
+      - if: always()
+        run: docker compose down -v

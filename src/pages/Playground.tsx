@@ -1,3 +1,4 @@
+import { API_BASE } from '@/lib/api-base';
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -58,7 +59,6 @@ const Playground = () => {
     { id: 8, label: 'Ready for underwriting engine.' },
   ];
 
-  const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
 
   const handlePdfUpload = async (file: File) => {
     setPdfFile(file);

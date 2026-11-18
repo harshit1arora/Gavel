@@ -1,6 +1,6 @@
 import { db, Timestamp } from '../config/firebase';
 import EventEmitter from 'events';
-import { v4 as uuidv4 } from 'uuid';
+import { randomUUID as uuidv4 } from 'crypto';
 import { createSalesDeal } from './sales';
 import { notifySlackDemoRequest, getSlackConfig } from './slack';
 

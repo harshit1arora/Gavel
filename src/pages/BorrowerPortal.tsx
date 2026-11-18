@@ -1,3 +1,4 @@
+import { API_BASE } from '@/lib/api-base';
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Phone, ArrowRight, ShieldCheck, Download, CreditCard, ChevronRight } from "lucide-react";
@@ -12,7 +13,6 @@ export default function BorrowerPortal() {
   const [authenticated, setAuthenticated] = useState(false);
   const [token, setToken] = useState<string | null>(null);
 
-  const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080';
   
   const [loans, setLoans] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);

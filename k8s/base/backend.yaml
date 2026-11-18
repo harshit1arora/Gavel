@@ -6,26 +6,8 @@ metadata:
 data:
   NODE_ENV: "production"
   PORT: "8080"
+  DECISION_SERVICE_URL: "http://gavel-decision-svc:8090"
   ALLOWED_ORIGINS: "https://trygavel.com,https://www.trygavel.com"
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: gavel-backend-secrets
-  namespace: default
-type: Opaque
-stringData:
-  FIREBASE_SERVICE_ACCOUNT: "${FIREBASE_SERVICE_ACCOUNT}"
-  GEMINI_API_KEY: "${GEMINI_API_KEY}"
-  NVIDIA_API_KEY: "${NVIDIA_API_KEY}"
-  TWILIO_ACCOUNT_SID: "${TWILIO_ACCOUNT_SID}"
-  TWILIO_AUTH_TOKEN: "${TWILIO_AUTH_TOKEN}"
-  SENDGRID_API_KEY: "${SENDGRID_API_KEY}"
-  RAZORPAY_KEY_ID: "${RAZORPAY_KEY_ID}"
-  RAZORPAY_KEY_SECRET: "${RAZORPAY_KEY_SECRET}"
-  RAZORPAY_WEBHOOK_SECRET: "${RAZORPAY_WEBHOOK_SECRET}"
-  JWT_SECRET: "${JWT_SECRET}"
-  WEBHOOK_SIGNING_SECRET: "${WEBHOOK_SIGNING_SECRET}"
 ---
 apiVersion: apps/v1
 kind: Deployment
