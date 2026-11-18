@@ -1,4 +1,4 @@
-import admin from 'firebase-admin';
+import { getFirestore } from 'firebase-admin/firestore';
 import { CreditBureauReport } from './bureau-service';
 
 /**
@@ -46,7 +46,7 @@ class EnhancedBureauService {
     orgId: string,
     forceRefresh = false
   ): Promise<CreditBureauReport | null> {
-    const db = admin.firestore();
+    const db = getFirestore();
 
     // Check cache
     if (!forceRefresh) {
@@ -111,7 +111,7 @@ class EnhancedBureauService {
     pan: string
   ): Promise<CreditBureauReport | null> {
     try {
-      const db = admin.firestore();
+      const db = getFirestore();
       const doc = await db
         .collection('creditBureauCache')
         .doc(userId)
@@ -146,7 +146,7 @@ class EnhancedBureauService {
     report: CreditBureauReport
   ): Promise<void> {
     try {
-      const db = admin.firestore();
+      const db = getFirestore();
       await db.collection('creditBureauCache').doc(userId).set(report, { merge: true });
     } catch (error) {
       console.warn('Cache storage failed:', error);
@@ -301,7 +301,7 @@ class EnhancedBureauService {
    */
   static async clearExpiredCache(): Promise<number> {
     try {
-      const db = admin.firestore();
+      const db = getFirestore();
       const now = Date.now();
       const expiryTime = now - this.CACHE_DURATION;
 

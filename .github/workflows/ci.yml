@@ -9,7 +9,6 @@ on:
 
 env:
   NODE_VERSION: '22'
-  PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: 'true'
   FIREBASE_PROJECT_ID: ${{ vars.FIREBASE_PROJECT_ID || 'gavel-demo' }}
 
 jobs:
@@ -172,7 +171,7 @@ jobs:
       - run: npm ci
       - run: npm run build
 
-      # GitHub's ubuntu runners ship Chrome; point Puppeteer at it instead of
+      # GitHub's ubuntu runners ship Chrome; point Playwright at it instead of
       # downloading a browser.
       - name: Browser suite
         env:

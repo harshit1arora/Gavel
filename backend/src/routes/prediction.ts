@@ -1,10 +1,10 @@
 import express, { Request, Response } from 'express';
 import { AuthenticatedRequest } from '../middleware/auth';
-import admin from 'firebase-admin';
+import { getFirestore, FieldValue } from 'firebase-admin/firestore';
 import MLPredictionEngine, { LoanPredictionRequest, LoanPredictionResult } from '../services/ml-prediction-engine';
 
 const router = express.Router();
-const db = admin.firestore();
+const db = getFirestore();
 
 /**
  * POST /prediction/predict
@@ -65,7 +65,7 @@ router.post('/predict', async (req: AuthenticatedRequest, res: Response) => {
       userId,
       applicationId,
       prediction,
-      createdAt: admin.firestore.FieldValue.serverTimestamp(),
+      createdAt: FieldValue.serverTimestamp(),
     });
 
     res.json({

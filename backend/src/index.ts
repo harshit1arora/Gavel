@@ -52,7 +52,7 @@ import originationRouter from './routes/origination';
 import underwritingRouter from './routes/underwriting';
 import demoRequestRouter from './routes/demo-request';
 import { connectRedis } from './services/redis';
-import { db, admin } from './config/firebase';
+import { db } from './config/firebase';
 import path from 'path';
 
 dotenv.config();

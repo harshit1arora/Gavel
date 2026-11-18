@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import * as admin from 'firebase-admin';
+import { getAuth } from 'firebase-admin/auth';
 import { db } from '../config/firebase';
 import { hashApiKey } from '../utils/security';
 
@@ -135,7 +135,7 @@ export const authenticateFirebaseToken = async (req: AuthenticatedRequest, res: 
   const idToken = authHeader.split('Bearer ')[1];
 
   try {
-    const decodedToken = await admin.auth().verifyIdToken(idToken);
+    const decodedToken = await getAuth().verifyIdToken(idToken);
     req.billingAdmin = decodedToken.billingAdmin === true;
     req.uid = decodedToken.uid;
     req.orgId = decodedToken.uid; // In Gavel, orgId === user's Firebase UID

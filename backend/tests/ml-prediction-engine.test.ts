@@ -4,10 +4,9 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 // Mock admin database calls if any
-vi.mock('firebase-admin', () => {
+vi.mock('firebase-admin/firestore', () => {
   return {
-    default: {
-      firestore: () => ({
+    getFirestore: () => ({
         collection: () => ({
           doc: () => ({
             get: async () => ({
@@ -21,7 +20,6 @@ vi.mock('firebase-admin', () => {
           })
         })
       })
-    }
   };
 });
 

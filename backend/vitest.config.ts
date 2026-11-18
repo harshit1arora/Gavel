@@ -1,8 +1,8 @@
 import { defineConfig } from 'vitest/config';
-import tsconfig from './tsconfig.json';
 import path from 'path';
 
 export default defineConfig({
+  css: { postcss: { plugins: [] } },
   test: {
     environment: 'node',
     globals: true,

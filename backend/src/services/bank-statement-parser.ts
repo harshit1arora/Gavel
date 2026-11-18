@@ -1,7 +1,7 @@
 import { pdfParse } from '../utils/pdf';
 import * as fs from 'fs';
 import * as path from 'path';
-import admin from 'firebase-admin';
+import { Timestamp, type Firestore } from 'firebase-admin/firestore';
 
 /**
  * Bank Statement Parser Service
@@ -449,19 +449,19 @@ class BankStatementParser {
    */
   static async saveToFirestore(
     statement: ParsedBankStatement,
-    db: admin.firestore.Firestore
+    db: Firestore
   ): Promise<string> {
     try {
       const docRef = await db.collection('bankStatementAnalysis').add({
         ...statement,
-        uploadedAt: admin.firestore.Timestamp.fromDate(statement.uploadedAt),
-        parsedAt: admin.firestore.Timestamp.fromDate(statement.parsedAt),
+        uploadedAt: Timestamp.fromDate(statement.uploadedAt),
+        parsedAt: Timestamp.fromDate(statement.parsedAt),
       });
 
       // Update application with parsed statement reference
       await db.collection('applications').doc(statement.applicationId).update({
         bankStatementAnalysisId: docRef.id,
-        bankStatementParsedAt: admin.firestore.Timestamp.now(),
+        bankStatementParsedAt: Timestamp.now(),
       });
 
       return docRef.id;

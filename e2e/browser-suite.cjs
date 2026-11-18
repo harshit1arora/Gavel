@@ -7,7 +7,7 @@
  * decline, re-run, filter, search), navbar routing, auth redirects, all 20
  * tools, and mobile layout. Writes a JSON report.
  */
-const puppeteer = require('puppeteer');
+const { chromium } = require('playwright-core');
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
@@ -44,7 +44,8 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 (async () => {
   await new Promise((r) => server.listen(PORT, r));
-  const browser = await puppeteer.launch({
+  const browser = await chromium.launch({
+    channel: 'chrome',
     executablePath: process.env.CHROME_PATH || undefined,
     args: ['--no-sandbox', '--disable-dev-shm-usage'],
   });
@@ -58,12 +59,13 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
         page.errors.push('console: ' + m.text().slice(0, 160));
       }
     });
-    await page.setViewport({ width, height });
+    await page.setViewportSize({ width, height });
     return page;
   };
 
   const goto = async (page, route) => {
-    await page.goto(`http://127.0.0.1:${PORT}${route}`, { waitUntil: 'networkidle2', timeout: 45000 });
+    await page.goto(`http://127.0.0.1:${PORT}${route}`, { waitUntil: 'domcontentloaded', timeout: 45000 });
+    await page.waitForSelector('#root > *', {state:'attached'});
     await sleep(900);
   };
 
@@ -102,8 +104,8 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
     // 2.1 real PDF upload
     let input = await page.$('input[type=file]');
-    await input.uploadFile(fx('statement-valid.pdf'));
-    await page.waitForFunction(() => /APPROVE|REVIEW|REJECT/.test(document.body.innerText), { timeout: 30000 });
+    await input.setInputFiles(fx('statement-valid.pdf'));
+    await page.waitForFunction(() => /APPROVE|REVIEW|REJECT/.test(document.body.innerText), undefined, { timeout: 30000 });
     await sleep(400);
     let body = await text(page);
     const decision = (body.match(/\b(APPROVE|REVIEW|REJECT)\b/) || [])[1];
@@ -165,7 +167,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
       const btn = [...document.querySelectorAll('button')].find((b) => /Run a sample statement/.test(b.innerText));
       if (btn) btn.click();
     });
-    await page.waitForFunction(() => /APPROVE|REVIEW|REJECT/.test(document.body.innerText), { timeout: 20000 });
+    await page.waitForFunction(() => /APPROVE|REVIEW|REJECT/.test(document.body.innerText), undefined, { timeout: 20000 });
     body = await text(page);
     record('try', 'sample statement → decision', /APPROVE|REVIEW|REJECT/.test(body),
       (body.match(/\b(APPROVE|REVIEW|REJECT)\b/) || [])[1]);
@@ -173,7 +175,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     // 2.7 non-PDF rejected
     await goto(page, '/try');
     input = await page.$('input[type=file]');
-    await input.uploadFile(fx('not-a-statement.txt'));
+    await input.setInputFiles(fx('not-a-statement.txt'));
     await sleep(1200);
     body = await text(page);
     record('try', 'non-PDF rejected with message', /Please upload a PDF/i.test(body));
@@ -181,7 +183,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     // 2.8 scanned PDF (no text layer) handled
     await goto(page, '/try');
     input = await page.$('input[type=file]');
-    await input.uploadFile(fx('statement-scan.pdf'));
+    await input.setInputFiles(fx('statement-scan.pdf'));
     await sleep(3000);
     body = await text(page);
     record('try', 'scanned PDF gives a clear error', /no text layer|scan/i.test(body),
@@ -190,7 +192,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     // 2.9 corrupt PDF handled
     await goto(page, '/try');
     input = await page.$('input[type=file]');
-    await input.uploadFile(fx('statement-corrupt.pdf'));
+    await input.setInputFiles(fx('statement-corrupt.pdf'));
     await sleep(3000);
     body = await text(page);
     const graceful = /could not|invalid|failed|no text layer/i.test(body);

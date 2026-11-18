@@ -1,9 +1,10 @@
+import { getAuth } from 'firebase-admin/auth';
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest';
 import express from 'express';
 import type { Server } from 'http';
 import type { AddressInfo } from 'net';
 import { randomUUID } from 'crypto';
-import { db, admin } from '../src/config/firebase';
+import { db } from '../src/config/firebase';
 import operations from '../src/routes/operations';
 import { loadPilotPolicy } from '../src/config/policy-loader';
 import { analyze } from '../src/services/underwriting-engine';
@@ -13,9 +14,9 @@ describe.skipIf(!/^127\.0\.0\.1:\d+$/.test(process.env.FIRESTORE_EMULATOR_HOST |
   const org=randomUUID(), other=randomUUID();
   let server:Server, url:string;
   beforeAll(async()=>{
-    vi.spyOn(admin.auth(),'verifyIdToken').mockImplementation(async(token)=>({
+    vi.spyOn(getAuth(),'verifyIdToken').mockImplementation(async(token)=>({
       uid:token === 'other' ? other : org,billingAdmin:token==='operator',
-    } as Awaited<ReturnType<ReturnType<typeof admin.auth>['verifyIdToken']>>));
+    } as Awaited<ReturnType<ReturnType<typeof getAuth>['verifyIdToken']>>));
     const app=express(); app.use(express.json()); app.use('/ops',operations);
     server=await new Promise<Server>(resolve=>{const s=app.listen(0,'127.0.0.1',()=>resolve(s));});
     url='http://127.0.0.1:'+(server.address() as AddressInfo).port+'/ops';

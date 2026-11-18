@@ -1,9 +1,9 @@
 import express, { Request, Response } from 'express';
-import admin from 'firebase-admin';
+import { getFirestore } from 'firebase-admin/firestore';
 import EnhancedBureauService, { CreditMetrics } from '../services/enhanced-bureau-service';
 
 const router = express.Router();
-const db = admin.firestore();
+const db = getFirestore();
 
 /**
  * POST /bureau/fetch-report

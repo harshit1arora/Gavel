@@ -1,4 +1,4 @@
-import admin from 'firebase-admin';
+import { getFirestore } from 'firebase-admin/firestore';
 
 /**
  * Lender Matching Engine
@@ -83,7 +83,7 @@ class LenderMatchingEngine {
    */
   static async matchUserWithLenders(userProfile: UserProfile): Promise<LenderOffer[]> {
     try {
-      const db = admin.firestore();
+      const db = getFirestore();
       
       // Fetch all active lenders
       const lendersSnapshot = await db.collection('lenders')
@@ -402,7 +402,7 @@ class LenderMatchingEngine {
    * Seed sample lenders to database (for testing/demo)
    */
   static async seedSampleLenders(): Promise<void> {
-    const db = admin.firestore();
+    const db = getFirestore();
     const now = new Date();
 
     const sampleLenders: LenderProfile[] = [

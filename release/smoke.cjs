@@ -1,7 +1,7 @@
-const puppeteer = require('puppeteer');
+const { chromium } = require('playwright-core');
 const path = require('node:path');
 async function main() {
-  const browser = await puppeteer.launch({executablePath: process.env.CHROME_PATH || undefined, args: ['--disable-dev-shm-usage']});
+  const browser = await chromium.launch({channel: 'chrome', executablePath: process.env.CHROME_PATH || undefined, args: ['--disable-dev-shm-usage']});
   try {
     const page = await browser.newPage();
     await page.goto(new URL('/try', process.env.GAVEL_PUBLIC_URL).href, {waitUntil:'domcontentloaded'});
@@ -14,12 +14,12 @@ async function main() {
       });
       if (deployed.some(value => value !== revision)) throw Error('Public frontend or gateway revision differs from the promoted manifest');
     }
-    const input = await page.waitForSelector('input[type=file]');
-    await input.uploadFile(path.resolve(__dirname,'../e2e/fixtures/statement-valid.pdf'));
+    const input = await page.waitForSelector('input[type=file]', {state:'attached'});
+    await input.setInputFiles(path.resolve(__dirname,'../e2e/fixtures/statement-valid.pdf'));
     await page.waitForFunction(() => {
       const text = document.body.innerText;
       return /\bAPPROVE\b/.test(text) && /\b8 transactions\b/i.test(text) && /Monthly income\s*₹\s*44,803/i.test(text);
-    }, {timeout:45000});
+    }, undefined, {timeout:45000});
   } finally { await browser.close(); }
 }
 main().catch(err => { console.error(err); process.exitCode = 1; });

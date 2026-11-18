@@ -16,66 +16,6 @@
     "test:e2e:services": "npm --prefix backend run build && python3 e2e/service-suite.py",
     "test:all": "npm run lint && npm run test && npm run build && npm run test:e2e"
   },
-  "reactSnap": {
-    "source": "dist",
-    "crawl": false,
-    "include": [
-      "/platform",
-      "/platform/underwriting",
-      "/platform/portfolio",
-      "/platform/disbursements",
-      "/platform/collections",
-      "/platform/sentinel",
-      "/platform/compliance",
-      "/platform/analytics",
-      "/platform/developer",
-      "/",
-      "/sandbox",
-      "/blog",
-      "/blog/how-nbfcs-can-reduce-loan-tat-automated-underwriting",
-      "/blog/rbi-compliant-underwriting-nbfcs-2025",
-      "/blog/bank-statement-analysis-api-nbfcs",
-      "/loan-approval-predictor",
-      "/tools",
-      "/tools/emi-calculator",
-      "/tools/salary-loan-eligibility",
-      "/tools/credit-utilization",
-      "/tools/home-loan-affordability",
-      "/tools/dti-calculator",
-      "/tools/car-loan-emi-calculator",
-      "/tools/credit-score-simulator",
-      "/tools/loan-affordability-calculator",
-      "/tools/emergency-fund-calculator",
-      "/tools/interest-rate-comparison",
-      "/tools/loan-tenure-optimizer",
-      "/tools/prepayment-impact-calculator",
-      "/tools/business-loan-eligibility",
-      "/tools/education-loan-calculator",
-      "/tools/credit-card-debt-payoff",
-      "/tools/salary-loan-mapping",
-      "/tools/nbfc-vs-bank-comparison",
-      "/tools/monthly-budget-planner",
-      "/tools/financial-health-check",
-      "/all-guides",
-      "/loan-rejection-guides",
-      "/financial-health-tools",
-      "/cibil-score-guides",
-      "/bank-statement-analysis",
-      "/loan-eligibility-center",
-      "/emi-education-hub",
-      "/about",
-      "/contact",
-      "/privacy-policy",
-      "/terms-of-service",
-      "/why-loans-get-rejected",
-      "/how-to-improve-loan-approval",
-      "/most-common-rejection-reasons"
-    ],
-    "puppeteerArgs": [
-      "--no-sandbox",
-      "--disable-setuid-sandbox"
-    ]
-  },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
     "@radix-ui/react-accordion": "^1.2.11",
@@ -127,14 +67,13 @@
     "react-joyride": "^3.0.2",
     "react-markdown": "^10.1.0",
     "react-resizable-panels": "^2.1.9",
-    "react-router-dom": "^6.30.1",
+    "react-router-dom": "^7.18.6",
     "recharts": "^3.8.1",
     "remark-gfm": "^4.0.1",
     "sonner": "^1.7.4",
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7",
     "vaul": "^0.9.9",
-    "zod": "^3.25.76",
     "zustand": "^5.0.13"
   },
   "devDependencies": {
@@ -147,21 +86,20 @@
     "@types/react": "^18.3.23",
     "@types/react-dom": "^18.3.7",
     "@vitejs/plugin-react-swc": "^3.11.0",
-    "@vitest/coverage-v8": "^3.2.4",
+    "@vitest/coverage-v8": "4.1.12",
     "autoprefixer": "^10.4.21",
     "eslint": "^9.32.0",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.20",
     "globals": "^15.15.0",
-    "jsdom": "^20.0.3",
-    "lovable-tagger": "^1.1.13",
+    "jsdom": "^26.1.0",
     "postcss": "^8.5.6",
-    "react-snap": "^1.23.0",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.38.0",
-    "vite": "^5.4.19",
-    "vitest": "^3.2.4"
+    "vite": "^6.4.6",
+    "vitest": "4.1.12",
+    "playwright-core": "^1.58.0"
   },
   "description": "Open-source lending infrastructure: deterministic underwriting engine, bank-statement parsing and a full lending console.",
   "license": "MIT",
@@ -179,5 +117,14 @@
     "open-source",
     "rbi",
     "loan-origination"
-  ]
+  ],
+  "overrides": {
+    "@firebase/firestore": {
+      "@grpc/grpc-js": "^1.14.0"
+    },
+    "@tailwindcss/typography": {
+      "postcss-selector-parser": "^6.1.5"
+    },
+    "sucrase": "^3.35.1"
+  }
 }

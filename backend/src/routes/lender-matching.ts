@@ -1,9 +1,9 @@
 import express, { Request, Response } from 'express';
-import admin from 'firebase-admin';
+import { getFirestore } from 'firebase-admin/firestore';
 import LenderMatchingEngine, { UserProfile, LenderOffer } from '../services/lender-matching-engine';
 
 const router = express.Router();
-const db = admin.firestore();
+const db = getFirestore();
 
 // Default lender profiles (used when Firestore has no lenders)
 const DEFAULT_LENDERS = [

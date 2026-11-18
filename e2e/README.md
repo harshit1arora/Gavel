@@ -12,7 +12,7 @@ npm run test:e2e:services # 27 service checks (boots FastAPI + Express)
 
 ## Browser suite, `browser-suite.cjs`
 
-Serves `dist/` over HTTP and drives it with Puppeteer.
+Serves `dist/` over HTTP and drives it with Playwright.
 
 | Suite | Checks |
 |---|---|
@@ -30,7 +30,7 @@ Environment:
 |---|---|---|
 | `E2E_ROOT` | `../dist` | build directory to serve |
 | `E2E_PORT` | `4300` | port for the static server |
-| `CHROME_PATH` | Puppeteer default | browser binary |
+| `CHROME_PATH` | installed Chrome | browser binary |
 | `E2E_REPORT` | `e2e/e2e-report.json` | JSON report path |
 
 Fixtures in `e2e/fixtures/`:

@@ -1,31 +1,31 @@
-import * as admin from 'firebase-admin';
-import { Firestore } from 'firebase-admin/firestore';
+import { getApps, initializeApp, cert, applicationDefault } from 'firebase-admin/app';
+import { getFirestore } from 'firebase-admin/firestore';
 import dotenv from 'dotenv';
 dotenv.config();
 
 // Attempt to initialize using default credentials, or fallback for local dev
-if (!admin.apps.length) {
+if (!getApps().length) {
   try {
     if (process.env.FIREBASE_SERVICE_ACCOUNT) {
       const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
-      admin.initializeApp({
-        credential: admin.credential.cert(serviceAccount)
+      initializeApp({
+        credential: cert(serviceAccount)
       });
     } else {
-      admin.initializeApp({
-        credential: admin.credential.applicationDefault(),
+      initializeApp({
+        credential: applicationDefault(),
         projectId: process.env.FIREBASE_PROJECT_ID || 'demo-project'
       });
     }
   } catch (err) {
     console.warn('Firebase Admin default initialization failed. Falling back to demo mode.');
-    if (!admin.apps.length) {
-      admin.initializeApp({ projectId: 'demo-project' });
+    if (!getApps().length) {
+      initializeApp({ projectId: 'demo-project' });
     }
   }
 }
 
-export const db = admin.firestore();
-export { admin };
+export const db = getFirestore();
+
 
 export { Timestamp, FieldValue, DocumentReference, getFirestore } from 'firebase-admin/firestore';

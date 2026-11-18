@@ -1,4 +1,4 @@
-import admin from 'firebase-admin';
+import { getFirestore } from 'firebase-admin/firestore';
 import { ParsedBankStatement } from './bank-statement-parser';
 
 /**
@@ -112,7 +112,7 @@ class MLPredictionEngine {
     let bankStatementData: any = {};
     if (request.bankStatementId) {
       try {
-        const db = admin.firestore();
+        const db = getFirestore();
         const stmtDoc = await db.collection('bankStatementAnalysis').doc(request.bankStatementId).get();
         if (stmtDoc.exists && stmtDoc.get('userId') === request.userId) {
           bankStatementData = stmtDoc.data();

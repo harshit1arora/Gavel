@@ -1,12 +1,12 @@
 import express, { Request, Response } from 'express';
-import admin from 'firebase-admin';
+import { getFirestore } from 'firebase-admin/firestore';
 import multer from 'multer';
 import path from 'path';
 import os from 'os';
 import BankStatementParser, { ParsedBankStatement } from '../services/bank-statement-parser';
 
 const router = express.Router();
-const db = admin.firestore();
+const db = getFirestore();
 
 // Configure multer for file uploads
 const upload = multer({
